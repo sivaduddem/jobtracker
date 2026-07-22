@@ -1,0 +1,78 @@
+# One-shot: refresh openings, then post everything currently open to Telegram.
+#
+# Actions → Digest current openings → Run workflow
+
+name: Digest current openings
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: internship-poll
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore internship database
+        uses: actions/cache/restore@v4
+        with:
+          path: data/internships.db
+          key: internships-db-${{ github.run_id }}
+          restore-keys: |
+            internships-db-
+
+      - name: Refresh openings (no Telegram spam during scrape)
+        env:
+          DATABASE_PATH: data/internships.db
+          COMPANIES_PATH: companies/companies.yaml
+          ENABLE_DISCOVERY: "false"
+          LOCATION_FILTER: us_canada
+          LOG_LEVEL: INFO
+          MAX_CONCURRENT_POLLS: "25"
+          TELEGRAM_BOT_TOKEN: ""
+          TELEGRAM_CHAT_ID: ""
+        run: |
+          mkdir -p data
+          python main.py --once
+
+      - name: Post current openings to Telegram
+        env:
+          DATABASE_PATH: data/internships.db
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/telegram_openings.py
+
+      - name: Save internship database
+        if: always() && hashFiles('data/internships.db') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: data/internships.db
+          key: internships-db-${{ github.run_id }}
+
+      - name: Upload DB artifact
+        if: always() && hashFiles('data/internships.db') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: internships-db
+          path: data/internships.db
+          retention-days: 14
+          overwrite: true
