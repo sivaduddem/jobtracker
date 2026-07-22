@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Internship Intelligence</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="top">
+    <div class="brand">
+      <span class="brand-mark">◇</span>
+      <div>
+        <h1>Internship Intelligence</h1>
+        <p class="tagline">Real-time SWE internship detection</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="poll-btn" class="btn">Poll now</button>
+      <a class="btn ghost" href="/api/export/csv">CSV</a>
+      <a class="btn ghost" href="/api/export/json">JSON</a>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="stat"><span class="label">Companies</span><span class="value" id="stat-companies">{{ stats.companies_monitored }}</span></div>
+    <div class="stat"><span class="label">Active jobs</span><span class="value" id="stat-active">{{ stats.jobs_active }}</span></div>
+    <div class="stat"><span class="label">Removed</span><span class="value" id="stat-removed">{{ stats.jobs_removed }}</span></div>
+    <div class="stat"><span class="label">Errors</span><span class="value" id="stat-errors">{{ stats.companies_with_errors }}</span></div>
+    <div class="stat wide"><span class="label">Last success</span><span class="value small" id="stat-last">{{ stats.last_successful_scrape or "—" }}</span></div>
+  </section>
+
+  <section class="toolbar">
+    <input id="search" type="search" placeholder="Search title, company, location…" />
+    <select id="sort">
+      <option value="first_seen">Newest</option>
+      <option value="score">Score</option>
+      <option value="company">Company</option>
+      <option value="title">Title</option>
+    </select>
+    <label class="check"><input type="checkbox" id="active-only" checked /> Active only</label>
+  </section>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Recent openings</h2>
+      <div id="jobs" class="jobs">
+        {% for job in jobs %}
+        <article class="job" data-score="{{ job.score }}">
+          <div class="job-top">
+            <h3><a href="{{ job.url }}" target="_blank" rel="noopener">{{ job.title }}</a></h3>
+            <span class="score">{{ job.score|int }}</span>
+          </div>
+          <div class="meta">
+            <span>{{ job.company }}</span>
+            <span>{{ job.term.value }}</span>
+            <span>{{ job.location or "—" }}</span>
+            <span class="provider">{{ job.provider.value }}</span>
+          </div>
+          <div class="meta dim">
+            <span>First seen {{ job.first_seen }}</span>
+          </div>
+        </article>
+        {% else %}
+        <p class="empty">No internships yet — polling will populate this feed.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <h2>Polling status</h2>
+        <div class="company-list">
+          {% for c in companies[:40] %}
+          <div class="company-row {% if c.consecutive_errors %}err{% endif %}">
+            <div>
+              <strong>{{ c.slug }}</strong>
+              <span class="provider">{{ c.provider.value }}</span>
+            </div>
+            <div class="right">
+              <span>{{ c.active_jobs }} jobs</span>
+              <span class="dim">{{ c.poll_interval_seconds }}s</span>
+            </div>
+          </div>
+          {% else %}
+          <p class="empty">No company state yet.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Recent errors</h2>
+        <div class="errors">
+          {% for e in errors %}
+          <div class="error-row">
+            <strong>{{ e.company }}</strong>
+            <span class="dim">{{ e.checked_at }}</span>
+            <code>{{ e.error }}</code>
+          </div>
+          {% else %}
+          <p class="empty">No recent errors.</p>
+          {% endfor %}
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

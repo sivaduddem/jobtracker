@@ -1,0 +1,180 @@
+companies:
+  stripe:
+    name: Stripe
+    provider: greenhouse
+    priority: 5
+
+  airbnb:
+    name: Airbnb
+    provider: greenhouse
+
+  databricks:
+    name: Databricks
+    provider: greenhouse
+    priority: 10
+
+  notion:
+    name: Notion
+    provider: ashby
+
+  discord:
+    name: Discord
+    provider: greenhouse
+
+  cloudflare:
+    name: Cloudflare
+    provider: greenhouse
+
+  figma:
+    name: Figma
+    provider: greenhouse
+
+  openai:
+    name: OpenAI
+    provider: ashby
+    priority: 10
+
+  cursor:
+    name: Cursor
+    provider: ashby
+    board_token: cursor
+    priority: 8
+
+  deepgram:
+    name: Deepgram
+    provider: ashby
+
+  scaleai:
+    name: Scale AI
+    provider: greenhouse
+
+  brex:
+    name: Brex
+    provider: greenhouse
+
+  ramp:
+    name: Ramp
+    provider: ashby
+    priority: 5
+
+  shopify:
+    name: Shopify
+    provider: greenhouse
+
+  coinbase:
+    name: Coinbase
+    provider: greenhouse
+
+  doordash:
+    name: DoorDash
+    provider: greenhouse
+
+  uber:
+    name: Uber
+    provider: greenhouse
+
+  lyft:
+    name: Lyft
+    provider: greenhouse
+
+  instacart:
+    name: Instacart
+    provider: greenhouse
+
+  palantir:
+    name: Palantir
+    provider: greenhouse
+    priority: 5
+
+  anduril:
+    name: Anduril
+    provider: ashby
+    priority: 5
+
+  linear:
+    name: Linear
+    provider: ashby
+
+  datadog:
+    name: Datadog
+    provider: greenhouse
+
+  mongodb:
+    name: MongoDB
+    provider: greenhouse
+
+  elastic:
+    name: Elastic
+    provider: greenhouse
+
+  hashicorp:
+    name: HashiCorp
+    provider: greenhouse
+
+  gitlab:
+    name: GitLab
+    provider: greenhouse
+
+  asana:
+    name: Asana
+    provider: greenhouse
+
+  airtable:
+    name: Airtable
+    provider: ashby
+
+  canva:
+    name: Canva
+    provider: greenhouse
+
+  grammarly:
+    name: Grammarly
+    provider: greenhouse
+
+  duolingo:
+    name: Duolingo
+    provider: greenhouse
+
+  roblox:
+    name: Roblox
+    provider: greenhouse
+
+  spotify:
+    name: Spotify
+    provider: lever
+
+  twitch:
+    name: Twitch
+    provider: greenhouse
+
+  reddit:
+    name: Reddit
+    provider: greenhouse
+
+  dropbox:
+    name: Dropbox
+    provider: greenhouse
+
+  twilio:
+    name: Twilio
+    provider: greenhouse
+
+  robinhood:
+    name: Robinhood
+    provider: greenhouse
+
+  affirm:
+    name: Affirm
+    provider: greenhouse
+
+  snowflakecomputing:
+    name: Snowflake
+    provider: greenhouse
+
+  squareup:
+    name: Block
+    provider: greenhouse
+
+  rippling:
+    name: Rippling
+    provider: ashby

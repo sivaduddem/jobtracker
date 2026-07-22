@@ -1,0 +1,17 @@
+services:
+  internship-intel:
+    build: .
+    container_name: internship-intel
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_PATH: /app/data/internships.db
+      DASHBOARD_HOST: 0.0.0.0
+      DASHBOARD_PORT: 8000
+    volumes:
+      - ./data:/app/data
+      - ./companies:/app/companies
+      - ./.env:/app/.env:ro
+    restart: unless-stopped

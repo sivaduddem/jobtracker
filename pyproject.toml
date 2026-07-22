@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "internship-intelligence"
+version = "0.1.0"
+description = "Real-time Software Engineering internship detection engine"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "siva" }]
+dependencies = [
+    "aiohttp>=3.9.0",
+    "aiosqlite>=0.20.0",
+    "beautifulsoup4>=4.12.0",
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.0",
+    "jinja2>=3.1.0",
+    "httpx>=0.27.0",
+    "lxml>=5.1.0",
+    "tzdata>=2024.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-aiohttp>=1.0.5",
+    "ruff>=0.3.0",
+]
+playwright = [
+    "playwright>=1.41.0",
+]
+
+[project.scripts]
+internship-intel = "main:cli"
+
+[tool.setuptools.packages.find]
+include = ["core*", "providers*", "notifications*", "dashboard*", "database*", "discovery*", "companies*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
