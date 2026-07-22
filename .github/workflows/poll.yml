@@ -1,0 +1,96 @@
+# Poll ATS providers on a schedule (free GitHub-hosted runners).
+#
+# Setup:
+#   1. Repo → Settings → Secrets and variables → Actions
+#   2. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID
+#   3. Enable Actions if prompted
+#
+# Notes:
+#   - GitHub may delay cron jobs (often 5–20+ min late on free plans).
+#   - SQLite is restored/saved via Actions cache so you are not re-notified every run.
+#   - The first run seeds the DB with notifications disabled to avoid a Telegram flood.
+
+name: Poll internships
+
+on:
+  schedule:
+    # Every 15 minutes (shortest reliable cadence for most repos)
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: internship-poll
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore internship database
+        id: db-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/internships.db
+          key: internships-db-${{ github.run_id }}
+          restore-keys: |
+            internships-db-
+
+      - name: Check whether DB already exists
+        id: db
+        run: |
+          if [ -f data/internships.db ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            ls -lh data/internships.db
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            mkdir -p data
+            echo "No prior database — this run will seed without Telegram alerts."
+          fi
+
+      - name: Run one poll cycle
+        env:
+          DATABASE_PATH: data/internships.db
+          COMPANIES_PATH: companies/companies.yaml
+          ENABLE_DISCOVERY: "false"
+          ENABLE_DASHBOARD: "false"
+          LOCATION_FILTER: us_canada
+          LOG_LEVEL: INFO
+          MAX_CONCURRENT_POLLS: "25"
+          # Skip Telegram on first seed so existing openings do not flood the chat
+          TELEGRAM_BOT_TOKEN: ${{ steps.db.outputs.exists == 'true' && secrets.TELEGRAM_BOT_TOKEN || '' }}
+          TELEGRAM_CHAT_ID: ${{ steps.db.outputs.exists == 'true' && secrets.TELEGRAM_CHAT_ID || '' }}
+          DISCORD_WEBHOOK_URL: ${{ steps.db.outputs.exists == 'true' && secrets.DISCORD_WEBHOOK_URL || '' }}
+        run: python main.py --once
+
+      - name: Save internship database
+        if: always() && hashFiles('data/internships.db') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: data/internships.db
+          key: internships-db-${{ github.run_id }}
+
+      - name: Upload DB artifact
+        if: always() && hashFiles('data/internships.db') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: internships-db
+          path: data/internships.db
+          retention-days: 14
+          overwrite: true
