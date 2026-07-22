@@ -23,7 +23,9 @@ async def test_storage_upsert_and_dedupe(tmp_path: Path):
         term=InternshipTerm.SUMMER_2027,
         score=100,
     )
-    is_new, should_notify = await db.upsert_internship(job, notify=True)
+    is_new, should_notify = await db.upsert_internship(
+        job, notify=True, company_slug="stripe"
+    )
     assert is_new and should_notify
 
     is_new2, should_notify2 = await db.upsert_internship(job, notify=True)
@@ -32,11 +34,37 @@ async def test_storage_upsert_and_dedupe(tmp_path: Path):
     jobs = await db.list_internships()
     assert len(jobs) == 1
     assert jobs[0].title == "Software Engineer Intern"
+    assert jobs[0].company_slug == "stripe"
 
     removed = await db.mark_missing_inactive("Stripe", ATSProvider.GREENHOUSE, set())
     assert removed == 1
     active = await db.list_internships(active_only=True)
     assert len(active) == 0
+    await db.close()
+
+
+@pytest.mark.asyncio
+async def test_mark_missing_inactive_by_slug_matches_display_name_rows(tmp_path: Path):
+    """Regression: scheduler passes slug; DB stores display name in company."""
+    db = Storage(tmp_path / "test_slug.db")
+    await db.connect()
+    job = Internship(
+        company="Stripe",
+        title="Software Engineer Intern",
+        url="https://boards.greenhouse.io/stripe/jobs/99",
+        job_id="99",
+        provider=ATSProvider.GREENHOUSE,
+        term=InternshipTerm.SUMMER_2027,
+        score=100,
+    )
+    await db.upsert_internship(job, notify=True, company_slug="stripe")
+
+    # Scheduler historically called with slug only — must still deactivate
+    removed = await db.mark_missing_inactive(
+        "stripe", ATSProvider.GREENHOUSE, set(), company_slug="stripe"
+    )
+    assert removed == 1
+    assert await db.list_internships(active_only=True) == []
     await db.close()
 
 

@@ -211,7 +211,10 @@ class Scheduler:
                         await self.storage.mark_notified(enriched.dedupe_key)
 
             removed = await self.storage.mark_missing_inactive(
-                company.slug, company.provider, seen_ids
+                company.display_name,
+                company.provider,
+                seen_ids,
+                company_slug=company.slug,
             )
             result.new_jobs = new_count
             result.removed_jobs = removed

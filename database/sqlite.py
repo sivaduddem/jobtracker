@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS internships (
     dedupe_key TEXT PRIMARY KEY,
     url_hash TEXT NOT NULL,
     company TEXT NOT NULL,
+    company_slug TEXT,
     title TEXT NOT NULL,
     location TEXT,
     url TEXT NOT NULL,
@@ -48,6 +49,7 @@ CREATE TABLE IF NOT EXISTS internships (
 );
 
 CREATE INDEX IF NOT EXISTS idx_internships_company ON internships(company);
+CREATE INDEX IF NOT EXISTS idx_internships_company_slug ON internships(company_slug);
 CREATE INDEX IF NOT EXISTS idx_internships_active ON internships(is_active);
 CREATE INDEX IF NOT EXISTS idx_internships_score ON internships(score DESC);
 CREATE INDEX IF NOT EXISTS idx_internships_first_seen ON internships(first_seen DESC);
@@ -131,8 +133,22 @@ class Storage:
         self._db = await aiosqlite.connect(self.db_path)
         self._db.row_factory = aiosqlite.Row
         await self._db.executescript(SCHEMA)
+        await self._migrate()
         await self._db.commit()
         log.info("SQLite ready at %s", self.db_path)
+
+    async def _migrate(self) -> None:
+        """Add columns introduced after the initial schema."""
+        async with self._db.execute("PRAGMA table_info(internships)") as cur:
+            cols = {row["name"] for row in await cur.fetchall()}
+        if "company_slug" not in cols:
+            await self._db.execute(
+                "ALTER TABLE internships ADD COLUMN company_slug TEXT"
+            )
+            await self._db.execute(
+                "CREATE INDEX IF NOT EXISTS idx_internships_company_slug "
+                "ON internships(company_slug)"
+            )
 
     async def close(self) -> None:
         if self._db:
@@ -203,16 +219,17 @@ class Storage:
             await self.db.execute(
                 """
                 INSERT INTO internships (
-                    dedupe_key, url_hash, company, title, location, url, job_id,
+                    dedupe_key, url_hash, company, company_slug, title, location, url, job_id,
                     provider, term, posted_date, employment_type, salary, remote,
                     first_seen, last_seen, description, source, score, is_active,
                     raw_json, notified
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
                 """,
                 (
                     internship.dedupe_key,
                     internship.url_hash,
                     internship.company,
+                    internship.company_slug,
                     internship.title,
                     internship.location,
                     internship.url,
@@ -243,7 +260,8 @@ class Storage:
             """
             UPDATE internships SET last_seen = ?, is_active = 1,
                    title = ?, location = ?, score = ?, description = ?,
-                   term = COALESCE(?, term)
+                   term = COALESCE(?, term),
+                   company_slug = COALESCE(?, company_slug)
             WHERE dedupe_key = ?
             """,
             (
@@ -253,6 +271,7 @@ class Storage:
                 internship.score,
                 internship.description,
                 internship.term.value if internship.term != InternshipTerm.UNKNOWN else None,
+                internship.company_slug,
                 internship.dedupe_key,
             ),
         )
@@ -274,12 +293,31 @@ class Storage:
         return self._row_to_internship(row) if row else None
 
     async def mark_missing_inactive(
-        self, company: str, provider: ATSProvider, seen_job_ids: set[str]
+        self,
+        company: str,
+        provider: ATSProvider,
+        seen_job_ids: set[str],
+        *,
+        company_slug: str | None = None,
     ) -> int:
-        """Mark jobs for this company as inactive if not in the latest scrape."""
+        """
+        Mark jobs for this company as inactive if not in the latest scrape.
+
+        `company` may be a display name ("Stripe") or slug ("stripe"). Prefer
+        `company_slug` when provided — rows store display names in `company`
+        and the stable key in `company_slug`.
+        """
+        slug = company_slug or company
         async with self.db.execute(
-            "SELECT dedupe_key, job_id FROM internships WHERE company = ? AND provider = ? AND is_active = 1",
-            (company, provider.value),
+            """
+            SELECT dedupe_key, job_id FROM internships
+            WHERE provider = ? AND is_active = 1 AND (
+                company_slug = ?
+                OR company = ?
+                OR lower(company) = lower(?)
+            )
+            """,
+            (provider.value, slug, company, company),
         ) as cur:
             rows = await cur.fetchall()
 
@@ -660,6 +698,7 @@ class Storage:
             term = InternshipTerm.UNKNOWN
         return Internship(
             company=row["company"],
+            company_slug=row["company_slug"] if "company_slug" in row.keys() else None,
             title=row["title"],
             location=row["location"],
             url=row["url"],
