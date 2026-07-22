@@ -68,6 +68,43 @@ async def test_mark_missing_inactive_by_slug_matches_display_name_rows(tmp_path:
     await db.close()
 
 
+@pytest.mark.asyncio
+async def test_url_hash_collision_updates_company_slug(tmp_path: Path):
+    """URL-hash collision path must populate company_slug like INSERT/UPDATE."""
+    db = Storage(tmp_path / "test_url_slug.db")
+    await db.connect()
+    first = Internship(
+        company="Stripe",
+        title="Software Engineer Intern",
+        url="https://boards.greenhouse.io/stripe/jobs/abc",
+        job_id="old-id",
+        provider=ATSProvider.GREENHOUSE,
+        term=InternshipTerm.SUMMER_2027,
+        score=100,
+    )
+    await db.upsert_internship(first, notify=True)  # no slug on first insert
+    rows = await db.list_internships()
+    assert rows[0].company_slug is None
+
+    # Same URL, different job_id → collision update should set slug
+    second = Internship(
+        company="Stripe",
+        title="Software Engineer Intern",
+        url="https://boards.greenhouse.io/stripe/jobs/abc",
+        job_id="new-id",
+        provider=ATSProvider.GREENHOUSE,
+        term=InternshipTerm.SUMMER_2027,
+        score=98,
+    )
+    is_new, _ = await db.upsert_internship(second, notify=True, company_slug="stripe")
+    assert is_new is False
+    rows = await db.list_internships()
+    assert len(rows) == 1
+    assert rows[0].company_slug == "stripe"
+    assert rows[0].score == 98
+    await db.close()
+
+
 def test_load_companies_yaml(tmp_path: Path):
     path = tmp_path / "companies.yaml"
     path.write_text(

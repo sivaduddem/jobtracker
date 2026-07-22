@@ -8,6 +8,7 @@ from core.models import ATSProvider
 from core.provider_base import BaseProvider
 from providers.ashby import AshbyProvider
 from providers.eightfold import EightfoldProvider
+from providers.google import GoogleProvider
 from providers.greenhouse import GreenhouseProvider
 from providers.icims import ICIMSProvider
 from providers.jobvite import JobviteProvider
@@ -30,6 +31,7 @@ PROVIDER_CLASSES: dict[ATSProvider, type[BaseProvider]] = {
     ATSProvider.SUCCESSFACTORS: SuccessFactorsProvider,
     ATSProvider.EIGHTFOLD: EightfoldProvider,
     ATSProvider.TALEO: TaleoProvider,
+    ATSProvider.GOOGLE: GoogleProvider,
 }
 
 

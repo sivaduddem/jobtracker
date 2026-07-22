@@ -1,4 +1,18 @@
 companies:
+  google:
+    name: Google
+    provider: google
+    priority: 10
+    career_url: https://www.google.com/about/careers/applications/jobs/results
+    metadata:
+      search_queries:
+        - Software Engineering Intern
+        - Software Engineer Intern
+        - SWE Intern
+      search_locations:
+        - United States
+        - Canada
+
   stripe:
     name: Stripe
     provider: greenhouse

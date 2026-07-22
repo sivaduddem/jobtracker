@@ -60,6 +60,8 @@ class Settings(BaseSettings):
     # Filters
     target_terms: str = "Summer 2027,Fall 2026,Winter 2027,Spring 2027"
     min_notify_score: float = 40.0
+    # Restrict to North America tech hubs: us_canada | any
+    location_filter: str = "us_canada"
 
     # Business hours (local wall clock, 24h)
     business_hour_start: int = 8

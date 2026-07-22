@@ -1,12 +1,11 @@
 """Unit tests — ranking, term classification, filters."""
 
-from datetime import datetime
-
 from core.models import ATSProvider, Internship, InternshipTerm
 from core.ranking import (
     classify_term,
     enrich_internship,
     is_internship_candidate,
+    is_us_or_canada_location,
     score_internship,
 )
 
@@ -28,6 +27,48 @@ def test_exclude_senior_and_non_eng():
     assert not is_internship_candidate("Software Engineer, Internal Systems")
     assert not is_internship_candidate("Software Engineer, International")
     assert not is_internship_candidate("Internal Product Engineer")
+
+
+def test_us_canada_location_filter():
+    assert is_us_or_canada_location("Mountain View, CA, USA; Atlanta, GA, USA; +29 more")
+    assert is_us_or_canada_location("Toronto, ON, Canada")
+    assert is_us_or_canada_location("Seattle, WA")
+    assert is_us_or_canada_location(None)
+    assert is_us_or_canada_location("Remote", remote=True)
+    assert not is_us_or_canada_location("Bengaluru, India")
+    assert not is_us_or_canada_location("London, UK")
+    assert not is_us_or_canada_location("Warsaw, Poland")
+
+
+def test_enrich_drops_foreign_locations(monkeypatch):
+    from core.config import get_settings
+
+    get_settings.cache_clear()
+    monkeypatch.setenv("LOCATION_FILTER", "us_canada")
+    get_settings.cache_clear()
+
+    foreign = Internship(
+        company="Stripe",
+        title="Software Engineer, Intern",
+        location="Bengaluru, India",
+        url="https://example.com/in",
+        job_id="in-1",
+        provider=ATSProvider.GREENHOUSE,
+    )
+    assert enrich_internship(foreign) is None
+
+    us = Internship(
+        company="Google",
+        title="Software Engineering Intern, BS, Summer 2027",
+        location="Mountain View, CA, USA; Atlanta, GA, USA",
+        url="https://example.com/us",
+        job_id="us-1",
+        provider=ATSProvider.GOOGLE,
+    )
+    enriched = enrich_internship(us)
+    assert enriched is not None
+    assert enriched.term == InternshipTerm.SUMMER_2027
+    get_settings.cache_clear()
 
 
 def test_classify_terms():

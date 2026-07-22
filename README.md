@@ -14,6 +14,8 @@ Monitors ATS platforms (not individual company scrapers) and alerts you within m
 
 **Latency goals:** under 5 minutes for Greenhouse / Lever / Ashby; under 10 minutes elsewhere.
 
+By default, only **US & Canada** locations are kept (`LOCATION_FILTER=us_canada`). Set `LOCATION_FILTER=any` to disable.
+
 ## Quick start
 
 ### 1. Install
@@ -105,7 +107,7 @@ mickeydjobtracker/
 
 ### Supported ATS providers
 
-Greenhouse · Lever · Ashby · Workday · SmartRecruiters · Jobvite · iCIMS · Oracle Recruiting · SuccessFactors · Eightfold · Taleo
+Greenhouse · Lever · Ashby · Workday · SmartRecruiters · Jobvite · iCIMS · Oracle Recruiting · SuccessFactors · Eightfold · Taleo · **Google Careers** (custom)
 
 ## Adding companies
 
@@ -172,6 +174,7 @@ Copy from `.env.example`. Main knobs:
 | `MAX_CONCURRENT_POLLS` | `50` | In-flight HTTP polls |
 | `MIN_NOTIFY_SCORE` | `40` | Minimum score to send Telegram |
 | `TARGET_TERMS` | Summer 2027, … | Terms used for classification |
+| `LOCATION_FILTER` | `us_canada` | `us_canada` or `any` |
 | `ENABLE_DISCOVERY` | `true` | Auto-discover companies on startup |
 | `DASHBOARD_PORT` | `8000` | Local UI port |
 

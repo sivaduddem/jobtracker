@@ -22,6 +22,7 @@ class ATSProvider(StrEnum):
     JOBVITE = "jobvite"
     EIGHTFOLD = "eightfold"
     TALEO = "taleo"
+    GOOGLE = "google"
     UNKNOWN = "unknown"
 
 

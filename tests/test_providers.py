@@ -59,3 +59,12 @@ def test_ashby_normalize():
     assert intern.job_id == "job-1"
     assert intern.url.endswith("job-1")
     assert intern.provider == ATSProvider.ASHBY
+
+
+def test_google_title_from_slug():
+    from providers.google import _title_from_slug
+
+    title = _title_from_slug("software-engineering-intern-bs-summer-2027")
+    assert "Software" in title
+    assert "Intern" in title
+    assert "2027" in title

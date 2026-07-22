@@ -201,7 +201,8 @@ class Storage:
                 await self.db.execute(
                     """
                     UPDATE internships SET last_seen = ?, is_active = 1,
-                           title = ?, location = ?, score = ?, description = ?
+                           title = ?, location = ?, score = ?, description = ?,
+                           company_slug = COALESCE(?, company_slug)
                     WHERE url_hash = ?
                     """,
                     (
@@ -210,6 +211,7 @@ class Storage:
                         internship.location,
                         internship.score,
                         internship.description,
+                        internship.company_slug,
                         internship.url_hash,
                     ),
                 )
