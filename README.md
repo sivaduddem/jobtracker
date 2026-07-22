@@ -73,11 +73,21 @@ Open the dashboard: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 docker compose up --build
 ```
 
-## Philosophy
+### GitHub Actions (cron)
 
-> Do not build a company scraper. Build a job intelligence engine.
+Runs `python main.py --once` every **15 minutes** and persists `data/internships.db` between runs via Actions cache (so you are not re-alerted for old jobs).
 
-Companies change. ATS platforms don't. One Greenhouse adapter can cover thousands of companies. Adding a company is configuration, not code.
+1. **Settings → Secrets and variables → Actions** → add:
+   - `TELEGRAM_BOT_TOKEN`
+   - `TELEGRAM_CHAT_ID`
+   - optional: `DISCORD_WEBHOOK_URL`
+2. **Actions** tab → **Poll internships** → **Run workflow** (optional manual seed)
+
+The first run seeds the database **without** Telegram (avoids a flood). Later runs notify only for newly seen postings.
+
+**Caveats:** Scheduled jobs may run late; this is usually slower than a local 5-minute poller. Free-tier cron is best as a backup, not a replacement for always-on local/Docker if you need &lt;5 minute latency.
+
+
 
 ## Architecture
 
