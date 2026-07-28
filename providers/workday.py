@@ -19,7 +19,7 @@ from core.logging import get_logger
 log = get_logger("providers.workday")
 
 # Common Workday host suffixes to try when only tenant:site is known
-_WD_HOSTS = ["wd1", "wd3", "wd5", "wd12"]
+_WD_HOSTS = ["wd1", "wd3", "wd5", "wd12", "wd501"]
 
 
 class WorkdayProvider(BaseProvider):

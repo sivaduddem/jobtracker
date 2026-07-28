@@ -1,4 +1,13 @@
+# Company registry — only include boards we can poll publicly.
+# board_token defaults to the YAML key (slug) unless overridden.
+#
+# Official-site adapters: google, amazon, apple, uber, amd scrape each
+# company's public careers search (JSON or HTML). Mega-caps still blocked
+# by bot protection (Meta, Microsoft Eightfold, Shopify SPA, etc.) stay off
+# the list until a stable public endpoint is found.
+
 companies:
+  # --- FAANG-adjacent / AI labs ---
   google:
     name: Google
     provider: google
@@ -13,101 +22,127 @@ companies:
         - United States
         - Canada
 
-  stripe:
-    name: Stripe
-    provider: greenhouse
-    priority: 5
-
-  airbnb:
-    name: Airbnb
-    provider: greenhouse
-
-  databricks:
-    name: Databricks
-    provider: greenhouse
+  amazon:
+    name: Amazon
+    provider: amazon
     priority: 10
+    career_url: https://www.amazon.jobs
+    metadata:
+      search_queries:
+        - Software Development Engineer Internship
+        - Software Development Engineer Intern
+        - SDE Intern
+      search_locations:
+        - United States
+        - Canada
 
-  notion:
-    name: Notion
-    provider: ashby
+  apple:
+    name: Apple
+    provider: apple
+    priority: 10
+    career_url: https://jobs.apple.com
+    metadata:
+      search_queries:
+        - software engineer intern
+        - software engineering intern
+        - intern
+      search_locations:
+        - united-states-USA
+        - canada-CAN
 
-  discord:
-    name: Discord
-    provider: greenhouse
+  uber:
+    name: Uber
+    provider: uber
+    priority: 8
+    career_url: https://www.uber.com/careers
+    metadata:
+      search_queries:
+        - Software Engineer Intern
+        - Intern
+      countries:
+        - USA
+        - CAN
 
-  cloudflare:
-    name: Cloudflare
-    provider: greenhouse
-
-  figma:
-    name: Figma
-    provider: greenhouse
+  amd:
+    name: AMD
+    provider: amd
+    priority: 8
+    career_url: https://careers.amd.com
+    metadata:
+      search_queries:
+        - Software Engineer Intern
+        - Software Development Intern
+        - intern
 
   openai:
     name: OpenAI
     provider: ashby
     priority: 10
 
-  cursor:
-    name: Cursor
-    provider: ashby
-    board_token: cursor
+  anthropic:
+    name: Anthropic
+    provider: greenhouse
+    priority: 10
+
+  deepmind:
+    name: Google DeepMind
+    provider: greenhouse
+    board_token: deepmind
     priority: 8
 
-  deepgram:
-    name: Deepgram
-    provider: ashby
+  nvidia:
+    name: NVIDIA
+    provider: workday
+    board_token: "nvidia:NVIDIAExternalCareerSite"
+    priority: 10
+    metadata:
+      workday_host: wd5
 
-  scaleai:
-    name: Scale AI
-    provider: greenhouse
-
-  brex:
-    name: Brex
-    provider: greenhouse
-
-  ramp:
-    name: Ramp
-    provider: ashby
+  intel:
+    name: Intel
+    provider: workday
+    board_token: "intel:External"
     priority: 5
+    metadata:
+      workday_host: wd1
 
-  shopify:
-    name: Shopify
+  salesforce:
+    name: Salesforce
+    provider: workday
+    board_token: "salesforce:External_Career_Site"
+    priority: 5
+    metadata:
+      workday_host: wd12
+
+  waymo:
+    name: Waymo
     provider: greenhouse
+    priority: 8
 
-  coinbase:
-    name: Coinbase
+  linkedin:
+    name: LinkedIn
     provider: greenhouse
+    priority: 8
 
-  doordash:
-    name: DoorDash
-    provider: greenhouse
-
-  uber:
-    name: Uber
-    provider: greenhouse
-
-  lyft:
-    name: Lyft
-    provider: greenhouse
-
-  instacart:
-    name: Instacart
-    provider: greenhouse
-
-  palantir:
-    name: Palantir
+  # --- High-priority product / infra ---
+  stripe:
+    name: Stripe
     provider: greenhouse
     priority: 5
 
-  anduril:
-    name: Anduril
-    provider: ashby
-    priority: 5
+  databricks:
+    name: Databricks
+    provider: greenhouse
+    priority: 10
 
-  linear:
-    name: Linear
+  snowflake:
+    name: Snowflake
     provider: ashby
+    priority: 8
+
+  cloudflare:
+    name: Cloudflare
+    provider: greenhouse
 
   datadog:
     name: Datadog
@@ -121,32 +156,42 @@ companies:
     name: Elastic
     provider: greenhouse
 
-  hashicorp:
-    name: HashiCorp
-    provider: greenhouse
-
   gitlab:
     name: GitLab
     provider: greenhouse
 
-  asana:
-    name: Asana
+  okta:
+    name: Okta
     provider: greenhouse
 
-  airtable:
-    name: Airtable
+  box:
+    name: Box
+    provider: greenhouse
+    board_token: boxinc
+
+  # --- Consumer / social / media ---
+  airbnb:
+    name: Airbnb
+    provider: greenhouse
+
+  discord:
+    name: Discord
+    provider: greenhouse
+
+  figma:
+    name: Figma
+    provider: greenhouse
+
+  notion:
+    name: Notion
     provider: ashby
 
-  canva:
-    name: Canva
+  pinterest:
+    name: Pinterest
     provider: greenhouse
 
-  grammarly:
-    name: Grammarly
-    provider: greenhouse
-
-  duolingo:
-    name: Duolingo
+  reddit:
+    name: Reddit
     provider: greenhouse
 
   roblox:
@@ -161,16 +206,34 @@ companies:
     name: Twitch
     provider: greenhouse
 
-  reddit:
-    name: Reddit
-    provider: greenhouse
-
   dropbox:
     name: Dropbox
     provider: greenhouse
 
-  twilio:
-    name: Twilio
+  disney:
+    name: Disney
+    provider: greenhouse
+
+  duolingo:
+    name: Duolingo
+    provider: greenhouse
+
+  asana:
+    name: Asana
+    provider: greenhouse
+
+  airtable:
+    name: Airtable
+    provider: ashby
+
+  # --- Fintech ---
+  block:
+    name: Block
+    provider: greenhouse
+    board_token: block
+
+  coinbase:
+    name: Coinbase
     provider: greenhouse
 
   robinhood:
@@ -181,14 +244,274 @@ companies:
     name: Affirm
     provider: greenhouse
 
-  snowflakecomputing:
-    name: Snowflake
+  brex:
+    name: Brex
     provider: greenhouse
 
-  squareup:
-    name: Block
-    provider: greenhouse
-
-  rippling:
-    name: Rippling
+  ramp:
+    name: Ramp
     provider: ashby
+    priority: 5
+
+  sofi:
+    name: SoFi
+    provider: greenhouse
+
+  chime:
+    name: Chime
+    provider: greenhouse
+
+  # --- Mobility / logistics / robotics ---
+  lyft:
+    name: Lyft
+    provider: greenhouse
+
+  instacart:
+    name: Instacart
+    provider: greenhouse
+
+  flexport:
+    name: Flexport
+    provider: greenhouse
+
+  samsara:
+    name: Samsara
+    provider: greenhouse
+
+  nuro:
+    name: Nuro
+    provider: greenhouse
+
+  lucid:
+    name: Lucid Motors
+    provider: greenhouse
+    board_token: lucidmotors
+
+  spacex:
+    name: SpaceX
+    provider: greenhouse
+    priority: 5
+
+  # --- Defense / applied AI ---
+  palantir:
+    name: Palantir
+    provider: lever
+    priority: 5
+
+  anduril:
+    name: Anduril
+    provider: greenhouse
+    board_token: andurilindustries
+    priority: 5
+
+  applied-intuition:
+    name: Applied Intuition
+    provider: ashby
+    board_token: applied
+    priority: 5
+
+  scaleai:
+    name: Scale AI
+    provider: greenhouse
+
+  # --- Trading / quant (strong SWE intern pipelines) ---
+  jane-street:
+    name: Jane Street
+    provider: greenhouse
+    board_token: janestreet
+    priority: 8
+
+  jump-trading:
+    name: Jump Trading
+    provider: greenhouse
+    board_token: jumptrading
+    priority: 8
+
+  imc:
+    name: IMC
+    provider: greenhouse
+    priority: 5
+
+  chicago-trading:
+    name: Chicago Trading Company
+    provider: greenhouse
+    board_token: ctccampusboard
+    priority: 8
+
+  point72:
+    name: Point72
+    provider: greenhouse
+    priority: 5
+
+  virtu:
+    name: Virtu Financial
+    provider: greenhouse
+    board_token: virtu
+
+  akuna:
+    name: Akuna Capital
+    provider: greenhouse
+    board_token: akunacapital
+
+  tower-research:
+    name: Tower Research Capital
+    provider: greenhouse
+    board_token: towerresearchcapital
+
+  # --- AI / developer tools startups ---
+  cursor:
+    name: Cursor
+    provider: ashby
+    board_token: cursor
+    priority: 8
+
+  deepgram:
+    name: Deepgram
+    provider: ashby
+
+  linear:
+    name: Linear
+    provider: ashby
+
+  supabase:
+    name: Supabase
+    provider: ashby
+
+  replit:
+    name: Replit
+    provider: ashby
+
+  sentry:
+    name: Sentry
+    provider: ashby
+
+  posthog:
+    name: PostHog
+    provider: ashby
+
+  # --- Other tech ---
+  twilio:
+    name: Twilio
+    provider: greenhouse
+
+  gusto:
+    name: Gusto
+    provider: greenhouse
+
+  samsung-research-america:
+    name: Samsung Research America
+    provider: greenhouse
+    board_token: samsungresearchamerica
+
+  # --- Fortune 500 tech (verified public boards only) ---
+  workday-inc:
+    name: Workday
+    provider: workday
+    board_token: "workday:Workday"
+    priority: 5
+    metadata:
+      workday_host: wd5
+
+  paypal:
+    name: PayPal
+    provider: workday
+    board_token: "paypal:jobs"
+    priority: 5
+    metadata:
+      workday_host: wd1
+
+  micron:
+    name: Micron Technology
+    provider: workday
+    board_token: "micron:External"
+    priority: 5
+    metadata:
+      workday_host: wd1
+
+  kla:
+    name: KLA Corporation
+    provider: workday
+    board_token: "kla:Search"
+    priority: 5
+    metadata:
+      workday_host: wd1
+
+  analog-devices:
+    name: Analog Devices
+    provider: workday
+    board_token: "analogdevices:External"
+    priority: 5
+    metadata:
+      workday_host: wd1
+
+  western-digital:
+    name: Western Digital
+    provider: smartrecruiters
+    board_token: WesternDigital
+    priority: 5
+
+  hpe:
+    name: Hewlett Packard Enterprise
+    provider: workday
+    board_token: "hpe:Jobsathpe"
+    priority: 5
+    metadata:
+      workday_host: wd5
+
+  zebra:
+    name: Zebra Technologies
+    provider: workday
+    board_token: "zebra:Zebra_careers"
+    metadata:
+      workday_host: wd501
+
+  motorola-solutions:
+    name: Motorola Solutions
+    provider: workday
+    board_token: "motorolasolutions:Careers"
+    metadata:
+      workday_host: wd5
+
+  dxc:
+    name: DXC Technology
+    provider: workday
+    board_token: "dxctechnology:DXCJobs"
+    metadata:
+      workday_host: wd1
+
+  leidos:
+    name: Leidos
+    provider: workday
+    board_token: "leidos:External"
+    priority: 5
+    metadata:
+      workday_host: wd5
+
+  caci:
+    name: CACI International
+    provider: workday
+    board_token: "caci:External"
+    metadata:
+      workday_host: wd1
+
+  veeva:
+    name: Veeva Systems
+    provider: lever
+    priority: 5
+
+  axon:
+    name: Axon Enterprise
+    provider: greenhouse
+    priority: 5
+
+  verisign:
+    name: Verisign
+    provider: greenhouse
+
+  commvault:
+    name: Commvault
+    provider: greenhouse
+
+  tripadvisor:
+    name: Tripadvisor
+    provider: greenhouse

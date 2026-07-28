@@ -23,6 +23,10 @@ class ATSProvider(StrEnum):
     EIGHTFOLD = "eightfold"
     TALEO = "taleo"
     GOOGLE = "google"
+    AMAZON = "amazon"
+    UBER = "uber"
+    AMD = "amd"
+    APPLE = "apple"
     UNKNOWN = "unknown"
 
 

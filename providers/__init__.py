@@ -6,6 +6,9 @@ import aiohttp
 
 from core.models import ATSProvider
 from core.provider_base import BaseProvider
+from providers.amd import AMDProvider
+from providers.amazon import AmazonProvider
+from providers.apple import AppleProvider
 from providers.ashby import AshbyProvider
 from providers.eightfold import EightfoldProvider
 from providers.google import GoogleProvider
@@ -17,6 +20,7 @@ from providers.oracle import OracleProvider
 from providers.smartrecruiters import SmartRecruitersProvider
 from providers.successfactors import SuccessFactorsProvider
 from providers.taleo import TaleoProvider
+from providers.uber import UberProvider
 from providers.workday import WorkdayProvider
 
 PROVIDER_CLASSES: dict[ATSProvider, type[BaseProvider]] = {
@@ -32,6 +36,10 @@ PROVIDER_CLASSES: dict[ATSProvider, type[BaseProvider]] = {
     ATSProvider.EIGHTFOLD: EightfoldProvider,
     ATSProvider.TALEO: TaleoProvider,
     ATSProvider.GOOGLE: GoogleProvider,
+    ATSProvider.AMAZON: AmazonProvider,
+    ATSProvider.UBER: UberProvider,
+    ATSProvider.AMD: AMDProvider,
+    ATSProvider.APPLE: AppleProvider,
 }
 
 

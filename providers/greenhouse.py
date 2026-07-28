@@ -88,11 +88,27 @@ class GreenhouseProvider(BaseProvider):
             job_id=str(job.get("id", "")),
             provider=self.name,
             posted_date=posted,
-            employment_type=(job.get("metadata") or [{}])[0].get("value")
-            if isinstance(job.get("metadata"), list) and job.get("metadata")
-            else None,
+            employment_type=self._employment_type(job),
             remote=remote,
             description=job.get("content"),
             source="greenhouse",
             raw=job,
         )
+
+    @staticmethod
+    def _employment_type(job: dict[str, Any]) -> str | None:
+        """Greenhouse metadata values can be str, list, bool, or nested dicts."""
+        meta = job.get("metadata")
+        if not isinstance(meta, list) or not meta:
+            return None
+        value = meta[0].get("value") if isinstance(meta[0], dict) else None
+        if value is None or isinstance(value, bool):
+            return None
+        if isinstance(value, str):
+            return value
+        if isinstance(value, list):
+            parts = [str(v) for v in value if v is not None and not isinstance(v, (dict, list))]
+            return ", ".join(parts) if parts else None
+        if isinstance(value, dict):
+            return None
+        return str(value)
