@@ -19,7 +19,7 @@ from core.logging import get_logger
 log = get_logger("providers.workday")
 
 # Common Workday host suffixes to try when only tenant:site is known
-_WD_HOSTS = ["wd1", "wd3", "wd5", "wd12", "wd501"]
+_WD_HOSTS = ["wd1", "wd3", "wd5", "wd12", "wd108", "wd501", "wd503"]
 
 
 class WorkdayProvider(BaseProvider):
@@ -131,6 +131,12 @@ class WorkdayProvider(BaseProvider):
             location = locations
         elif isinstance(locations, list):
             location = ", ".join(str(x) for x in locations)
+        # Workday list payloads often omit locationsText; path embeds it:
+        # /job/India---Bangalore/Title_REQ or /job/Bellville-South-Africa-ZSA06/...
+        if not location and path:
+            m = re.search(r"/job/([^/]+)/", path, re.IGNORECASE)
+            if m:
+                location = m.group(1).replace("---", " - ").replace("-", " ")
 
         job_id = str(job.get("bulletFields", [""])[0] if isinstance(job.get("bulletFields"), list) else "")
         if not job_id:

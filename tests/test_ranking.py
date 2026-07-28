@@ -33,11 +33,30 @@ def test_us_canada_location_filter():
     assert is_us_or_canada_location("Mountain View, CA, USA; Atlanta, GA, USA; +29 more")
     assert is_us_or_canada_location("Toronto, ON, Canada")
     assert is_us_or_canada_location("Seattle, WA")
-    assert is_us_or_canada_location(None)
-    assert is_us_or_canada_location("Remote", remote=True)
+    assert is_us_or_canada_location("Remote - United States", remote=True)
+    assert is_us_or_canada_location("USA Remote")
+    # Strict: missing / unknown / foreign rejected
+    assert not is_us_or_canada_location(None)
+    assert not is_us_or_canada_location("")
+    assert not is_us_or_canada_location("Remote", remote=True)
     assert not is_us_or_canada_location("Bengaluru, India")
     assert not is_us_or_canada_location("London, UK")
     assert not is_us_or_canada_location("Warsaw, Poland")
+    assert not is_us_or_canada_location("Lisbon, Portugal")
+    assert not is_us_or_canada_location("Bellville, South Africa")
+    # URL path fallback (Workday)
+    assert not is_us_or_canada_location(
+        None,
+        url="https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/India---Bangalore/Summer-2027-Intern---Software-Engineer_JR337715",
+    )
+    assert not is_us_or_canada_location(
+        None,
+        url="https://motorolasolutions.wd5.myworkdayjobs.com/Careers/job/Bellville-South-Africa-ZSA06/Field-Engineer-Intern-Graduate--Sub-Saharan-Africa_R63840",
+    )
+    assert is_us_or_canada_location(
+        None,
+        url="https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/California---San-Francisco/Summer-2027-Intern---Software-Engineer_JR1",
+    )
 
 
 def test_enrich_drops_foreign_locations(monkeypatch):
@@ -56,6 +75,26 @@ def test_enrich_drops_foreign_locations(monkeypatch):
         provider=ATSProvider.GREENHOUSE,
     )
     assert enrich_internship(foreign) is None
+
+    portugal = Internship(
+        company="Cloudflare",
+        title="Research Engineer Intern (Fall 2026)",
+        location="Lisbon, Portugal",
+        url="https://boards.greenhouse.io/cloudflare/jobs/8089400",
+        job_id="8089400",
+        provider=ATSProvider.GREENHOUSE,
+    )
+    assert enrich_internship(portugal) is None
+
+    india_url = Internship(
+        company="Salesforce",
+        title="Summer 2027 Intern - Software Engineer",
+        location=None,
+        url="https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/India---Bangalore/Summer-2027-Intern---Software-Engineer_JR337715",
+        job_id="JR337715",
+        provider=ATSProvider.WORKDAY,
+    )
+    assert enrich_internship(india_url) is None
 
     us = Internship(
         company="Google",
@@ -110,6 +149,7 @@ def test_enrich_drops_non_matches():
     good = Internship(
         company="X",
         title="Software Engineer Intern - Summer 2027",
+        location="San Francisco, CA",
         url="https://example.com/3",
         job_id="3",
         provider=ATSProvider.ASHBY,

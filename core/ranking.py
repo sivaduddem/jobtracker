@@ -89,7 +89,25 @@ _FOREIGN_ONLY = [
         r"auckland|new\s+zealand|sao\s+paulo|brazil|mexico\s+city|"
         r"argentina|chile|colombia|taiwan|taipei|shanghai|beijing|"
         r"shenzhen|china|jakarta|indonesia|bangkok|thailand|"
-        r"manila|philippines|vietnam|ho\s+chi\s+minh)\b",
+        r"manila|philippines|vietnam|ho\s+chi\s+minh|"
+        r"south\s+africa|cape\s+town|johannesburg|bellville|"
+        r"nigeria|kenya|egypt|uae|dubai|abu\s+dhabi|"
+        r"saudi|riyadh|qatar|kuwait|romania|bucharest|"
+        r"hungary|budapest|greece|athens|turkey|istanbul|"
+        r"ukraine|kyiv|russia|moscow|pakistan|karachi|"
+        r"bangladesh|dhaka|malaysia|kuala\s+lumpur|"
+        r"emea|apac|latam|europe|asia|africa)\b",
+    ]
+]
+
+# Remote is only OK when explicitly tied to US/Canada.
+_REMOTE_US_CANADA = [
+    re.compile(p, re.IGNORECASE)
+    for p in [
+        r"\bremote\b.*\b(united\s+states|usa|u\.s\.a?\.?|canada|canadian)\b",
+        r"\b(united\s+states|usa|u\.s\.a?\.?|canada|canadian)\b.*\bremote\b",
+        r"\b(us|usa|canada)[\s\-_/]*remote\b",
+        r"\bremote[\s\-_/]*(us|usa|canada)\b",
     ]
 ]
 
@@ -114,28 +132,54 @@ def is_internship_candidate(title: str, description: str | None = None) -> bool:
     return False
 
 
+def location_blob_from_url(url: str | None) -> str:
+    """Pull location-ish tokens from career URLs (esp. Workday path segments)."""
+    if not url:
+        return ""
+    # Workday: /job/India---Bangalore/Title_REQ or /job/Bellville-South-Africa-ZSA06/...
+    m = re.search(r"/job/([^/]+)/", url, re.IGNORECASE)
+    if m:
+        return m.group(1).replace("---", " - ").replace("-", " ")
+    return url
+
+
 def is_us_or_canada_location(
     location: str | None,
     *,
     remote: bool | None = None,
+    url: str | None = None,
 ) -> bool:
     """
-    True if acceptable under a US/Canada-only filter.
+    Strict US/Canada allowlist.
 
-    Multi-location strings that include any US/Canada site are kept.
-    Purely foreign locations are rejected. Remote / missing location is kept.
+    A job passes only when location (or URL path fallback) positively matches
+    the United States or Canada. Missing/unknown locations are rejected.
+    Remote roles pass only when explicitly US/Canada remote.
+    Multi-location strings that include at least one US/Canada site are kept,
+    unless they are purely foreign.
     """
-    if remote:
-        return True
-    if not location or not location.strip():
+    text = (location or "").strip()
+    url_blob = location_blob_from_url(url)
+    combined = f"{text} {url_blob}".strip()
+
+    if not combined:
+        return False
+
+    # Explicit foreign with no US/Canada signal → reject
+    has_us_ca = any(rx.search(combined) for rx in _US_CANADA_POSITIVE)
+    has_foreign = any(rx.search(combined) for rx in _FOREIGN_ONLY)
+
+    if has_us_ca:
         return True
 
-    text = location.strip()
-    if any(rx.search(text) for rx in _US_CANADA_POSITIVE):
-        return True
-    if any(rx.search(text) for rx in _FOREIGN_ONLY):
+    if remote or re.search(r"\bremote\b", combined, re.IGNORECASE):
+        return any(rx.search(combined) for rx in _REMOTE_US_CANADA)
+
+    if has_foreign:
         return False
-    return True
+
+    # Unknown city/country with no US/Canada markers → reject (strict)
+    return False
 
 
 def classify_term(
@@ -182,7 +226,11 @@ def enrich_internship(internship: Internship) -> Internship | None:
 
     settings = get_settings()
     if settings.location_filter.lower() in {"us_canada", "us-canada", "na"}:
-        if not is_us_or_canada_location(internship.location, remote=internship.remote):
+        if not is_us_or_canada_location(
+            internship.location,
+            remote=internship.remote,
+            url=internship.url,
+        ):
             return None
 
     internship.term = classify_term(

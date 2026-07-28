@@ -528,3 +528,1174 @@ companies:
   tripadvisor:
     name: Tripadvisor
     provider: greenhouse
+
+  # --- From archived Summer 2026 tracker (verified public boards) ---
+  comcast:
+    name: Comcast
+    provider: workday
+    board_token: "comcast:comcast_careers"
+    metadata:
+      workday_host: wd5
+  visa:
+    name: Visa
+    provider: smartrecruiters
+    board_token: Visa
+  skyryse:
+    name: Skyryse
+    provider: greenhouse
+  td-bank:
+    name: TD Bank
+    provider: workday
+    board_token: "td:td_bank_careers"
+    metadata:
+      workday_host: wd3
+  rtx:
+    name: RTX
+    provider: workday
+    board_token: "globalhr:rec_rtx_ext_gateway"
+    metadata:
+      workday_host: wd5
+  zoox:
+    name: Zoox
+    provider: lever
+  cox:
+    name: Cox
+    provider: workday
+    board_token: "cox:cox_external_career_site_1"
+    metadata:
+      workday_host: wd1
+  northrop-grumman:
+    name: Northrop Grumman
+    provider: workday
+    board_token: "ngc:northrop_grumman_external_site"
+    metadata:
+      workday_host: wd1
+  verizon-communications:
+    name: Verizon Communications
+    provider: workday
+    board_token: "verizon:verizon-careers"
+    metadata:
+      workday_host: wd12
+  adobe:
+    name: Adobe
+    provider: workday
+    board_token: "adobe:external_experienced"
+    metadata:
+      workday_host: wd5
+  oshkosh:
+    name: Oshkosh
+    provider: workday
+    board_token: "oshkoshcorporation:oshkosh"
+    metadata:
+      workday_host: wd5
+  schonfeld:
+    name: Schonfeld
+    provider: greenhouse
+  johnson-johnson:
+    name: "Johnson & Johnson"
+    provider: workday
+    board_token: "jj:jj"
+    metadata:
+      workday_host: wd5
+  expedia-group:
+    name: Expedia Group
+    provider: workday
+    board_token: "expedia:search"
+    metadata:
+      workday_host: wd108
+  bandwidth:
+    name: Bandwidth
+    provider: greenhouse
+  apex-fintech-solutions:
+    name: Apex Fintech Solutions
+    provider: workday
+    board_token: "peak6group:apexfintechsolutions"
+    metadata:
+      workday_host: wd1
+  verkada:
+    name: Verkada
+    provider: greenhouse
+  appian:
+    name: Appian
+    provider: greenhouse
+  ge-vernova:
+    name: GE Vernova
+    provider: workday
+    board_token: "gevernova:only_confidential_executive_recruiting"
+    metadata:
+      workday_host: wd5
+  experian:
+    name: Experian
+    provider: smartrecruiters
+    board_token: Experian
+  together-ai:
+    name: Together AI
+    provider: greenhouse
+    board_token: togetherai
+  cibc:
+    name: CIBC
+    provider: workday
+    board_token: "cibc:campus"
+    metadata:
+      workday_host: wd3
+  nbcuniversal:
+    name: NBCUniversal
+    provider: smartrecruiters
+    board_token: nbcuniversal3
+  philips:
+    name: Philips
+    provider: workday
+    board_token: "philips:jobs-and-careers"
+    metadata:
+      workday_host: wd3
+  neuralink:
+    name: Neuralink
+    provider: greenhouse
+  figure:
+    name: Figure
+    provider: greenhouse
+    board_token: figureai
+  transmarket-group:
+    name: TransMarket Group
+    provider: greenhouse
+    board_token: transmarketgroup
+  talos:
+    name: Talos
+    provider: ashby
+    board_token: talos-trading
+  confluent:
+    name: Confluent
+    provider: ashby
+  sigma-computing:
+    name: Sigma Computing
+    provider: greenhouse
+    board_token: sigmacomputing
+  zus:
+    name: Zus
+    provider: lever
+    board_token: zushealth
+  millerknoll:
+    name: MillerKnoll
+    provider: workday
+    board_token: "millerknoll:millerknoll"
+    metadata:
+      workday_host: wd1
+  ptc:
+    name: PTC
+    provider: workday
+    board_token: "ptc:ptc"
+    metadata:
+      workday_host: wd1
+  the-aerospace-corporation:
+    name: The Aerospace Corporation
+    provider: workday
+    board_token: "aero:external"
+    metadata:
+      workday_host: wd5
+  booz-allen:
+    name: Booz Allen
+    provider: workday
+    board_token: "bah:bah_jobs"
+    metadata:
+      workday_host: wd1
+  mercury:
+    name: Mercury
+    provider: greenhouse
+  five-rings:
+    name: Five Rings
+    provider: greenhouse
+    board_token: fiveringsllc
+  tenstorrent:
+    name: Tenstorrent
+    provider: greenhouse
+    board_token: tenstorrentuniversity
+  klaviyo:
+    name: Klaviyo
+    provider: greenhouse
+    board_token: klaviyocampus
+  merck:
+    name: Merck
+    provider: workday
+    board_token: "msd:searchjobs"
+    metadata:
+      workday_host: wd5
+  toyota-research-institute:
+    name: Toyota Research Institute
+    provider: lever
+    board_token: tri
+  aecom:
+    name: AECOM
+    provider: smartrecruiters
+    board_token: AECOM2
+  moog:
+    name: Moog
+    provider: workday
+    board_token: "moog:moog_external_career_site"
+    metadata:
+      workday_host: wd5
+  occ:
+    name: OCC
+    provider: workday
+    board_token: "theocc:careers"
+    metadata:
+      workday_host: wd5
+  schweitzer-engineering-laboratories:
+    name: Schweitzer Engineering Laboratories
+    provider: workday
+    board_token: "selinc:sel"
+    metadata:
+      workday_host: wd1
+  michaels-stores:
+    name: Michaels Stores
+    provider: workday
+    board_token: "michaels:external"
+    metadata:
+      workday_host: wd5
+  bloom-energy:
+    name: Bloom Energy
+    provider: workday
+    board_token: "bloomenergy:bloomenergycareers"
+    metadata:
+      workday_host: wd1
+  daimler-truck:
+    name: Daimler Truck
+    provider: workday
+    board_token: "dtna:dtna_external"
+    metadata:
+      workday_host: wd5
+  nelnet:
+    name: Nelnet
+    provider: workday
+    board_token: "nelnet:mynelnet"
+    metadata:
+      workday_host: wd1
+  intuitive:
+    name: Intuitive
+    provider: smartrecruiters
+    board_token: intuitive
+  autodesk:
+    name: Autodesk
+    provider: workday
+    board_token: "autodesk:ext"
+    metadata:
+      workday_host: wd1
+  aquatic-capital-management:
+    name: Aquatic Capital Management
+    provider: greenhouse
+    board_token: aquaticcapitalmanagement
+  nimble:
+    name: Nimble
+    provider: lever
+    board_token: nimblerx
+  n1:
+    name: N1
+    provider: ashby
+  84-51:
+    name: 84.51°
+    provider: greenhouse
+    board_token: 8451university
+  pdt-partners:
+    name: PDT Partners
+    provider: greenhouse
+    board_token: pdtpartners
+  liveramp:
+    name: LiveRamp
+    provider: workday
+    board_token: "liveramp:liverampcareers"
+    metadata:
+      workday_host: wd5
+  vercel:
+    name: Vercel
+    provider: greenhouse
+  asml:
+    name: ASML
+    provider: workday
+    board_token: "asml:asmlext1"
+    metadata:
+      workday_host: wd3
+  charles-river-associates-cra:
+    name: Charles River Associates (CRA)
+    provider: greenhouse
+    board_token: charlesriverassociates
+  hudl:
+    name: Hudl
+    provider: greenhouse
+  renesas-electronics:
+    name: Renesas Electronics
+    provider: smartrecruiters
+    board_token: renesaselectronics
+  brilliant:
+    name: Brilliant
+    provider: lever
+  rocket-lab-usa:
+    name: Rocket Lab USA
+    provider: greenhouse
+    board_token: rocketlab
+  ge-appliances:
+    name: GE Appliances
+    provider: workday
+    board_token: "haier:ge_appliances"
+    metadata:
+      workday_host: wd3
+  arch-capital-group:
+    name: Arch Capital Group
+    provider: workday
+    board_token: "archgroup:careers"
+    metadata:
+      workday_host: wd1
+  mastercard:
+    name: Mastercard
+    provider: workday
+    board_token: "mastercard:campusapplyonly"
+    metadata:
+      workday_host: wd1
+  pendo:
+    name: Pendo
+    provider: greenhouse
+  gofundme:
+    name: GoFundMe
+    provider: greenhouse
+  kcf-technologies:
+    name: KCF Technologies
+    provider: greenhouse
+    board_token: kcftechnologies
+  cdk-global:
+    name: CDK Global
+    provider: workday
+    board_token: "cdk:cdk"
+    metadata:
+      workday_host: wd1
+  servicenow:
+    name: ServiceNow
+    provider: smartrecruiters
+    board_token: ServiceNow
+  u-s-venture:
+    name: U.S. Venture
+    provider: workday
+    board_token: "usventure:usvexternal"
+    metadata:
+      workday_host: wd1
+  labcorp:
+    name: LabCorp
+    provider: workday
+    board_token: "labcorp:external"
+    metadata:
+      workday_host: wd1
+  ab:
+    name: AB
+    provider: workday
+    board_token: "abglobal:abcampuscareers"
+    metadata:
+      workday_host: wd1
+  the-new-york-times:
+    name: The New York Times
+    provider: greenhouse
+    board_token: thenewyorktimes
+  inspire-medical-systems:
+    name: Inspire Medical Systems
+    provider: greenhouse
+    board_token: inspiremedicalsystemsinc
+  clarios:
+    name: Clarios
+    provider: workday
+    board_token: "clarios:clarioscareers"
+    metadata:
+      workday_host: wd5
+  exact-sciences:
+    name: Exact Sciences
+    provider: workday
+    board_token: "exactsciences:exact_sciences"
+    metadata:
+      workday_host: wd1
+  impinj:
+    name: Impinj
+    provider: greenhouse
+    board_token: impinjexternal
+  robert-bosch-venture-capital:
+    name: Robert Bosch Venture Capital
+    provider: smartrecruiters
+    board_token: BoschGroup
+  7-eleven:
+    name: 7-Eleven
+    provider: workday
+    board_token: "my7elevenhr:careers"
+    metadata:
+      workday_host: wd12
+  fox:
+    name: FOX
+    provider: workday
+    board_token: "fox:domestic"
+    metadata:
+      workday_host: wd1
+  bread-financial:
+    name: Bread Financial
+    provider: workday
+    board_token: "alliancedata:breadfinancial_us"
+    metadata:
+      workday_host: wd5
+  cohesity:
+    name: Cohesity
+    provider: workday
+    board_token: "cohesity:cohesity_careers"
+    metadata:
+      workday_host: wd5
+  arrive-logistics:
+    name: Arrive Logistics
+    provider: lever
+    board_token: arrivelogistics
+  the-boeing-company:
+    name: The Boeing Company
+    provider: workday
+    board_token: "boeing:external_careers"
+    metadata:
+      workday_host: wd1
+  centene:
+    name: Centene
+    provider: workday
+    board_token: "centene:centene_external"
+    metadata:
+      workday_host: wd5
+  shield-ai:
+    name: Shield AI
+    provider: lever
+    board_token: shieldai
+  bridgewater-associates:
+    name: Bridgewater Associates
+    provider: greenhouse
+    board_token: bridgewatercampusrecruiting
+  wurl:
+    name: Wurl
+    provider: greenhouse
+    board_token: wurljobs
+  cohere:
+    name: Cohere
+    provider: ashby
+  podium:
+    name: Podium
+    provider: greenhouse
+    board_token: podium81
+  parachute-health:
+    name: Parachute Health
+    provider: greenhouse
+    board_token: parachutehealth
+  ada18:
+    name: Ada18
+    provider: greenhouse
+  geneva-trading:
+    name: Geneva Trading
+    provider: greenhouse
+    board_token: genevatrading
+  atpco:
+    name: ATPCO
+    provider: smartrecruiters
+    board_token: ATPCO1
+  drw:
+    name: DRW
+    provider: greenhouse
+    board_token: drweng
+  method-financial:
+    name: Method Financial
+    provider: ashby
+    board_token: method
+  the-trade-desk:
+    name: The Trade Desk
+    provider: greenhouse
+    board_token: thetradedesk
+  protiviti:
+    name: Protiviti
+    provider: workday
+    board_token: "roberthalf:protivitina"
+    metadata:
+      workday_host: wd1
+  lynk:
+    name: Lynk
+    provider: ashby
+  allium:
+    name: Allium
+    provider: ashby
+  harmonic:
+    name: Harmonic
+    provider: greenhouse
+  fable-security:
+    name: Fable Security
+    provider: ashby
+    board_token: fable
+  the-mosaic-company:
+    name: The Mosaic Company
+    provider: workday
+    board_token: "mosaic:mosaic"
+    metadata:
+      workday_host: wd5
+  reality-defender:
+    name: Reality Defender
+    provider: ashby
+    board_token: realitydefender
+  applovin:
+    name: AppLovin
+    provider: greenhouse
+  baseten:
+    name: Baseten
+    provider: ashby
+  gimlet-labs:
+    name: Gimlet Labs
+    provider: ashby
+    board_token: gimlet
+  dv-commodities:
+    name: DV Commodities
+    provider: greenhouse
+    board_token: dvtrading
+  hpr:
+    name: HPR
+    provider: greenhouse
+    board_token: hyannisportresearch
+  airbus:
+    name: Airbus
+    provider: workday
+    board_token: "ag:airbus"
+    metadata:
+      workday_host: wd3
+  marquee-insurance-group:
+    name: Marquee Insurance Group
+    provider: greenhouse
+    board_token: marqueeig1
+  mill:
+    name: Mill
+    provider: greenhouse
+  belvedere-trading:
+    name: Belvedere Trading
+    provider: lever
+    board_token: belvederetrading
+  blackedge-capital:
+    name: BlackEdge Capital
+    provider: greenhouse
+    board_token: blackedgecapital
+  metronome:
+    name: Metronome
+    provider: greenhouse
+  weride:
+    name: WeRide
+    provider: lever
+  new-york-post:
+    name: New York Post
+    provider: workday
+    board_token: "dowjones:new_york_post_careers"
+    metadata:
+      workday_host: wd1
+  hermeus:
+    name: Hermeus
+    provider: lever
+  keybank:
+    name: KeyBank
+    provider: workday
+    board_token: "keybank:external_career_site"
+    metadata:
+      workday_host: wd5
+  hp:
+    name: HP
+    provider: workday
+    board_token: "hp:externalcareersite"
+    metadata:
+      workday_host: wd5
+  abridge:
+    name: Abridge
+    provider: ashby
+  cultivarium:
+    name: Cultivarium
+    provider: lever
+    board_token: convergentresearch
+  descript:
+    name: Descript
+    provider: greenhouse
+    board_token: descriptinc
+  decagon:
+    name: Decagon
+    provider: ashby
+  metron:
+    name: Metron
+    provider: greenhouse
+  sciplay:
+    name: SciPlay
+    provider: workday
+    board_token: "lnw:sciplayexternalcareerssite"
+    metadata:
+      workday_host: wd5
+  devon:
+    name: Devon
+    provider: workday
+    board_token: "devonenergy:careers"
+    metadata:
+      workday_host: wd5
+  bumble-inc:
+    name: Bumble Inc.
+    provider: lever
+    board_token: bumbleinc
+  elanco:
+    name: Elanco
+    provider: workday
+    board_token: "elanco:external_career"
+    metadata:
+      workday_host: wd5
+  fidelity:
+    name: Fidelity
+    provider: workday
+    board_token: "fmr:targeted"
+    metadata:
+      workday_host: wd1
+  vast:
+    name: Vast
+    provider: greenhouse
+  reframe-systems:
+    name: Reframe Systems
+    provider: ashby
+    board_token: reframesystems
+  suno:
+    name: Suno
+    provider: ashby
+  rilla:
+    name: Rilla
+    provider: ashby
+  viavi-solutions:
+    name: Viavi Solutions
+    provider: workday
+    board_token: "viavisolutions:careers"
+    metadata:
+      workday_host: wd1
+  draftkings:
+    name: DraftKings
+    provider: workday
+    board_token: "draftkings:campus_career_portal"
+    metadata:
+      workday_host: wd1
+  mitsubishi-ufj-financial-group-mufg:
+    name: Mitsubishi UFJ Financial Group (MUFG)
+    provider: workday
+    board_token: "mufgub:mufg-careers"
+    metadata:
+      workday_host: wd3
+  fidelity-investments:
+    name: Fidelity Investments
+    provider: workday
+    board_token: "fmr:fidelitycareers"
+    metadata:
+      workday_host: wd1
+  exegy:
+    name: Exegy
+    provider: ashby
+  glossgenius:
+    name: GlossGenius
+    provider: greenhouse
+  quantco:
+    name: QuantCo
+    provider: lever
+    board_token: quantco-
+  huntsman:
+    name: Huntsman
+    provider: workday
+    board_token: "huntsman:huntsman"
+    metadata:
+      workday_host: wd1
+  sift:
+    name: Sift
+    provider: ashby
+    board_token: siftstack
+  truveta:
+    name: Truveta
+    provider: greenhouse
+  dell-technologies:
+    name: Dell Technologies
+    provider: workday
+    board_token: "dell:external"
+    metadata:
+      workday_host: wd1
+  kodiak-robotics:
+    name: Kodiak Robotics
+    provider: greenhouse
+    board_token: kodiak
+  muon-space:
+    name: Muon Space
+    provider: greenhouse
+    board_token: muonspace
+  target:
+    name: Target
+    provider: workday
+    board_token: "target:targetcareers"
+    metadata:
+      workday_host: wd5
+  persona:
+    name: Persona
+    provider: ashby
+  raine:
+    name: Raine
+    provider: lever
+  bracebridge-capital:
+    name: Bracebridge Capital
+    provider: greenhouse
+    board_token: bracebridgecapital
+  allstate:
+    name: Allstate
+    provider: workday
+    board_token: "allstate:allstate_careers"
+    metadata:
+      workday_host: wd5
+  one-finance:
+    name: ONE Finance
+    provider: ashby
+    board_token: oneapp
+  zurn-elkay-water-solutions-corporation:
+    name: Zurn Elkay Water Solutions Corporation
+    provider: workday
+    board_token: "elkay:elkay_external"
+    metadata:
+      workday_host: wd1
+  corteva-agriscience:
+    name: Corteva Agriscience
+    provider: workday
+    board_token: "corteva:corteva"
+    metadata:
+      workday_host: wd5
+  borgwarner:
+    name: BorgWarner
+    provider: workday
+    board_token: "borgwarner:borgwarner_careers"
+    metadata:
+      workday_host: wd5
+  gunvor:
+    name: Gunvor
+    provider: workday
+    board_token: "gunvor:gunvor_careers"
+    metadata:
+      workday_host: wd3
+  the-tudor-group:
+    name: The Tudor Group
+    provider: greenhouse
+    board_token: tudorgroup
+  ensign-bickford-aerospace-defense-company:
+    name: "Ensign-Bickford Aerospace & Defense Company"
+    provider: workday
+    board_token: "ebi:ebadcareers"
+    metadata:
+      workday_host: wd5
+  respec:
+    name: RESPEC
+    provider: smartrecruiters
+    board_token: RESPECInc
+  veritiv-corporation:
+    name: Veritiv Corporation
+    provider: workday
+    board_token: "veritiv:veritivcareers"
+    metadata:
+      workday_host: wd5
+  first-quality:
+    name: First Quality
+    provider: workday
+    board_token: "firstquality:firstquality"
+    metadata:
+      workday_host: wd5
+  brown-brown-insurance:
+    name: "Brown & Brown Insurance"
+    provider: workday
+    board_token: "bbinsurance:careers"
+    metadata:
+      workday_host: wd1
+  blue-cross-and-blue-shield-of-kansas:
+    name: Blue Cross and Blue Shield of Kansas
+    provider: workday
+    board_token: "bcbsks:external"
+    metadata:
+      workday_host: wd1
+  nisource:
+    name: NiSource
+    provider: workday
+    board_token: "nisource:nisource"
+    metadata:
+      workday_host: wd1
+  audax-group:
+    name: Audax Group
+    provider: greenhouse
+    board_token: audaxgroup
+  world-kinect:
+    name: World Kinect
+    provider: workday
+    board_token: "wfscorp:wfscareers"
+    metadata:
+      workday_host: wd5
+  maven-securities:
+    name: Maven Securities
+    provider: greenhouse
+    board_token: mavensecuritiesholdingltd
+  global-payments:
+    name: Global Payments
+    provider: workday
+    board_token: "tsys:tsys"
+    metadata:
+      workday_host: wd1
+  sierra-nevada-coporation:
+    name: Sierra Nevada Coporation
+    provider: workday
+    board_token: "snc:snc_external_career_site"
+    metadata:
+      workday_host: wd1
+  datacor:
+    name: Datacor
+    provider: greenhouse
+  hive-financial-systems:
+    name: Hive Financial Systems
+    provider: greenhouse
+    board_token: hivefinancialsystems
+  novanta:
+    name: Novanta
+    provider: workday
+    board_token: "novanta:novanta-careers"
+    metadata:
+      workday_host: wd5
+  nissan-global:
+    name: Nissan Global
+    provider: workday
+    board_token: "alliance:nissanjobs"
+    metadata:
+      workday_host: wd3
+  breeze-airways:
+    name: Breeze Airways
+    provider: greenhouse
+    board_token: breezeairways
+  patreon:
+    name: Patreon
+    provider: ashby
+  doordash:
+    name: DoorDash
+    provider: greenhouse
+    board_token: doordashusa
+  eight-sleep:
+    name: Eight Sleep
+    provider: ashby
+    board_token: eightsleep
+  drivetime:
+    name: DriveTime
+    provider: workday
+    board_token: "drivetime:drivetime"
+    metadata:
+      workday_host: wd1
+  garner-health:
+    name: Garner Health
+    provider: greenhouse
+    board_token: garnerhealth
+  businessolver:
+    name: Businessolver
+    provider: greenhouse
+    board_token: businessolverinvitationonly
+  entrust:
+    name: Entrust
+    provider: workday
+    board_token: "entrust:entrustcareers"
+    metadata:
+      workday_host: wd1
+  godaddy:
+    name: GoDaddy
+    provider: greenhouse
+    board_token: godaddyemployeereferrals
+  diversified-automation:
+    name: Diversified Automation
+    provider: lever
+  avis-budget-group:
+    name: Avis Budget Group
+    provider: workday
+    board_token: "avisbudget:abg_careers"
+    metadata:
+      workday_host: wd1
+  garage:
+    name: Garage
+    provider: ashby
+  rbc-capital-markets:
+    name: RBC Capital Markets
+    provider: workday
+    board_token: "rbc:rbcglobal1"
+    metadata:
+      workday_host: wd3
+  gcm-grosvenor:
+    name: GCM Grosvenor
+    provider: greenhouse
+    board_token: gcmgrosvenor
+  arc:
+    name: Arc
+    provider: greenhouse
+    board_token: arcboatcompany
+  cardinal-health:
+    name: Cardinal Health
+    provider: workday
+    board_token: "cardinalhealth:ext"
+    metadata:
+      workday_host: wd1
+  hone:
+    name: Hone
+    provider: greenhouse
+    board_token: honehealth
+  racetrac:
+    name: RaceTrac
+    provider: workday
+    board_token: "racetrac:ssc"
+    metadata:
+      workday_host: wd5
+  illumio:
+    name: Illumio
+    provider: ashby
+  td-synnex:
+    name: TD Synnex
+    provider: workday
+    board_token: "synnex:tdsynnexcareers"
+    metadata:
+      workday_host: wd5
+  mach9:
+    name: Mach9
+    provider: ashby
+  eversource-energy:
+    name: Eversource Energy
+    provider: workday
+    board_token: "eversource:externalsite"
+    metadata:
+      workday_host: wd1
+  garda-capital-partners:
+    name: Garda Capital Partners
+    provider: greenhouse
+    board_token: gardacp
+  xpeng-motors:
+    name: XPENG Motors
+    provider: greenhouse
+    board_token: xpengmotors
+  samsung-semiconductor:
+    name: Samsung Semiconductor
+    provider: greenhouse
+    board_token: samsungsemiconductor
+  relay:
+    name: Relay
+    provider: greenhouse
+    board_token: relaypro
+  abbvie:
+    name: AbbVie
+    provider: smartrecruiters
+    board_token: AbbVie
+  home-chef:
+    name: Home Chef
+    provider: greenhouse
+    board_token: homechef
+  walt-disney-parks-and-resorts:
+    name: Walt Disney Parks and Resorts
+    provider: workday
+    board_token: "disney:disneycareer"
+    metadata:
+      workday_host: wd5
+  inflection:
+    name: Inflection
+    provider: greenhouse
+    board_token: inflectionai
+  second-dinner:
+    name: Second Dinner
+    provider: ashby
+    board_token: seconddinner
+  delta-dental-of-michigan-ohio-and-indiana:
+    name: "Delta Dental of Michigan, Ohio, and Indiana"
+    provider: workday
+    board_token: "rhsc:delta_dental_of_michigan"
+    metadata:
+      workday_host: wd5
+  toshiba-global-commerce-solutions:
+    name: Toshiba Global Commerce Solutions
+    provider: greenhouse
+    board_token: toshibaglobalcommercesolutions
+  vizient:
+    name: Vizient
+    provider: workday
+    board_token: "vizient:vizient_careers"
+    metadata:
+      workday_host: wd1
+  two-six-technologies:
+    name: Two Six Technologies
+    provider: greenhouse
+    board_token: twosixtechnologies
+  valmont:
+    name: Valmont
+    provider: workday
+    board_token: "valmont:valmontcareers"
+    metadata:
+      workday_host: wd1
+  silicon-laboratories:
+    name: Silicon Laboratories
+    provider: workday
+    board_token: "silabs:siliconlabscareers"
+    metadata:
+      workday_host: wd1
+  nordstrom:
+    name: Nordstrom
+    provider: workday
+    board_token: "nordstrom:nordstrom_careers"
+    metadata:
+      workday_host: wd501
+  hntb:
+    name: HNTB
+    provider: workday
+    board_token: "hntb:hntb_careers"
+    metadata:
+      workday_host: wd5
+  arcesium:
+    name: Arcesium
+    provider: greenhouse
+    board_token: arcesiumllc
+  otis-worldwide:
+    name: Otis Worldwide
+    provider: workday
+    board_token: "otis:rec_ext_gateway"
+    metadata:
+      workday_host: wd5
+  eqt-corporation:
+    name: EQT Corporation
+    provider: greenhouse
+    board_token: eqtcorporation
+  lambda:
+    name: Lambda
+    provider: ashby
+  zip:
+    name: Zip
+    provider: ashby
+  singlestore:
+    name: SingleStore
+    provider: greenhouse
+  vsp-vision:
+    name: VSP Vision
+    provider: workday
+    board_token: "vsp:vspvisioncareers"
+    metadata:
+      workday_host: wd1
+  braze:
+    name: Braze
+    provider: greenhouse
+  the-travelers-companies:
+    name: The Travelers Companies
+    provider: workday
+    board_token: "travelers:external"
+    metadata:
+      workday_host: wd5
+  blackstone:
+    name: Blackstone
+    provider: workday
+    board_token: "blackstone:bx_external_site"
+    metadata:
+      workday_host: wd1
+  icapital:
+    name: iCapital
+    provider: greenhouse
+    board_token: icapitalnetwork
+  levi-strauss-co:
+    name: "Levi Strauss & Co."
+    provider: workday
+    board_token: "levistraussandco:external"
+    metadata:
+      workday_host: wd5
+  sandisk:
+    name: Sandisk
+    provider: smartrecruiters
+    board_token: sandisk
+  saviynt-labs:
+    name: Saviynt LABS
+    provider: lever
+    board_token: saviynt
+  etched:
+    name: ETCHED
+    provider: ashby
+  playstation:
+    name: PlayStation
+    provider: greenhouse
+    board_token: sonyinteractiveentertainmentglobal
+  flowserve:
+    name: Flowserve
+    provider: workday
+    board_token: "flowserve:applied"
+    metadata:
+      workday_host: wd1
+  mcg:
+    name: MCG
+    provider: greenhouse
+    board_token: mcghealth
+  sentra:
+    name: Sentra
+    provider: ashby
+  giga:
+    name: GIGA
+    provider: ashby
+    board_token: gigaml
+  apex:
+    name: Apex
+    provider: ashby
+    board_token: apex-technology-inc
+  veolia:
+    name: Veolia
+    provider: smartrecruiters
+    board_token: VeoliaEnvironnementSA
+  crystal-dynamics:
+    name: Crystal Dynamics
+    provider: greenhouse
+    board_token: crystaldynamics
+  pultegroup:
+    name: PulteGroup
+    provider: workday
+    board_token: "pultegroup:pgi"
+    metadata:
+      workday_host: wd1
+  icf-international:
+    name: ICF International
+    provider: workday
+    board_token: "icf:icfexternal_career_site"
+    metadata:
+      workday_host: wd5
+  flock-safety:
+    name: Flock Safety
+    provider: ashby
+    board_token: flock
+  crusoe:
+    name: Crusoe
+    provider: ashby
+  simple-ai:
+    name: Simple AI
+    provider: ashby
+  d-matrix:
+    name: d-Matrix
+    provider: ashby
+  parspec:
+    name: Parspec
+    provider: ashby
+  zocdoc:
+    name: Zocdoc
+    provider: greenhouse
+  ironclad:
+    name: Ironclad
+    provider: ashby
+    board_token: ironcladhq
+  harvey:
+    name: Harvey
+    provider: ashby
+  axiom-space:
+    name: Axiom Space
+    provider: workday
+    board_token: "axiomspace:external_career_site"
+    metadata:
+      workday_host: wd5
+  ciena:
+    name: Ciena
+    provider: workday
+    board_token: "ciena:careers"
+    metadata:
+      workday_host: wd5
+  rocket:
+    name: Rocket
+    provider: workday
+    board_token: "quickenloans:rocket_careers"
+    metadata:
+      workday_host: wd5
+  hitachi-energy:
+    name: Hitachi Energy
+    provider: workday
+    board_token: "hitachi:hitachi"
+    metadata:
+      workday_host: wd1
+  rhombus:
+    name: Rhombus
+    provider: lever
+    board_token: rhombus-systems
