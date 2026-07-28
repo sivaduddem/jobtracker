@@ -16,6 +16,7 @@ from providers.greenhouse import GreenhouseProvider
 from providers.icims import ICIMSProvider
 from providers.jobvite import JobviteProvider
 from providers.lever import LeverProvider
+from providers.meta import MetaProvider
 from providers.oracle import OracleProvider
 from providers.smartrecruiters import SmartRecruitersProvider
 from providers.successfactors import SuccessFactorsProvider
@@ -40,6 +41,7 @@ PROVIDER_CLASSES: dict[ATSProvider, type[BaseProvider]] = {
     ATSProvider.UBER: UberProvider,
     ATSProvider.AMD: AMDProvider,
     ATSProvider.APPLE: AppleProvider,
+    ATSProvider.META: MetaProvider,
 }
 
 

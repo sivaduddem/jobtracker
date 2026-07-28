@@ -1,10 +1,9 @@
 # Company registry — only include boards we can poll publicly.
 # board_token defaults to the YAML key (slug) unless overridden.
 #
-# Official-site adapters: google, amazon, apple, uber, amd scrape each
-# company's public careers search (JSON or HTML). Mega-caps still blocked
-# by bot protection (Meta, Microsoft Eightfold, Shopify SPA, etc.) stay off
-# the list until a stable public endpoint is found.
+# Official-site adapters: google, amazon, apple, uber, amd, meta.
+# Meta uses metacareers.com GraphQL (jobsearch); some networks get HTTP 400
+# bot blocks — the adapter still polls and surfaces the error when blocked.
 
 companies:
   # --- FAANG-adjacent / AI labs ---
@@ -49,6 +48,20 @@ companies:
       search_locations:
         - united-states-USA
         - canada-CAN
+
+  meta:
+    name: Meta
+    provider: meta
+    priority: 10
+    career_url: https://www.metacareers.com/jobsearch/
+    metadata:
+      search_queries:
+        - null
+        - Software Engineer Intern
+        - Software Engineering Intern
+      teams:
+        - Internship - Engineering, Tech & Design
+      include_university_grad: false
 
   uber:
     name: Uber

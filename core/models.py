@@ -27,6 +27,7 @@ class ATSProvider(StrEnum):
     UBER = "uber"
     AMD = "amd"
     APPLE = "apple"
+    META = "meta"
     UNKNOWN = "unknown"
 
 
