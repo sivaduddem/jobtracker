@@ -12,7 +12,7 @@ Monitors ATS platforms (not individual company scrapers) and alerts you within m
 - Serves a local **dark-mode dashboard** at `http://127.0.0.1:8000`
 - Scales toward **10,000+ companies** via shared ATS adapters + YAML config
 
-**Latency goals:** under 5 minutes for Greenhouse / Lever / Ashby; under 10 minutes elsewhere.
+**Latency goals:** ~30–60s locally for hot/business-hours boards; ~5 min on GitHub Actions cron.
 
 By default, only **US & Canada** locations are kept (`LOCATION_FILTER=us_canada`). Set `LOCATION_FILTER=any` to disable.
 
@@ -75,7 +75,7 @@ docker compose up --build
 
 ### GitHub Actions (cron)
 
-Runs `python main.py --once` every **15 minutes** and persists `data/internships.db` between runs via Actions cache (so you are not re-alerted for old jobs).
+Runs `python main.py --once` every **5 minutes** and persists `data/internships.db` between runs via Actions cache (so you are not re-alerted for old jobs).
 
 1. **Settings → Secrets and variables → Actions** → add:
    - `TELEGRAM_BOT_TOKEN`
@@ -85,7 +85,7 @@ Runs `python main.py --once` every **15 minutes** and persists `data/internships
 
 The first run seeds the database **without** Telegram (avoids a flood). Later runs notify only for newly seen postings.
 
-**Caveats:** Scheduled jobs may run late; this is usually slower than a local 5-minute poller. Free-tier cron is best as a backup, not a replacement for always-on local/Docker if you need &lt;5 minute latency.
+**Caveats:** Scheduled jobs may run late; this is usually slower than a local 30–60s poller. Free-tier cron is best as a backup, not a replacement for always-on local/Docker if you need sub-minute latency.
 
 
 
@@ -177,10 +177,10 @@ Copy from `.env.example`. Main knobs:
 |----------|---------|---------|
 | `TELEGRAM_BOT_TOKEN` | — | Bot token from BotFather |
 | `TELEGRAM_CHAT_ID` | — | Your Telegram chat id |
-| `POLL_BUSINESS_HOURS` | `300` | Poll interval during 8–20 local (seconds) |
-| `POLL_OFF_HOURS` | `1200` | Off-hours interval |
-| `POLL_HOT` | `120` | Predicted opening / high priority |
-| `POLL_INACTIVE` | `3600` | Backoff for quiet or erroring boards |
+| `POLL_BUSINESS_HOURS` | `60` | Poll interval during 8–20 (seconds) |
+| `POLL_OFF_HOURS` | `120` | Off-hours interval |
+| `POLL_HOT` | `30` | Predicted opening / high priority |
+| `POLL_INACTIVE` | `300` | Backoff for quiet or erroring boards |
 | `MAX_CONCURRENT_POLLS` | `50` | In-flight HTTP polls |
 | `MIN_NOTIFY_SCORE` | `40` | Minimum score to send Telegram |
 | `TARGET_TERMS` | Summer 2027, … | Terms used for classification |

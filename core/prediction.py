@@ -33,11 +33,11 @@ def compute_poll_interval(
 ) -> int:
     """
     Adaptive interval:
-      - predicted hot / priority: poll_hot (default 2 min)
+      - predicted hot / priority: poll_hot (default 30s)
       - recent activity: business hours interval
-      - business hours: poll_business_hours (5 min)
-      - off hours: poll_off_hours (20 min)
-      - inactive (no jobs ever, many errors): poll_inactive (60 min)
+      - business hours: poll_business_hours (default 60s)
+      - off hours: poll_off_hours (default 120s)
+      - inactive (no jobs ever, many errors): poll_inactive (default 5 min)
 
     `now` should be UTC (same clock as scheduler). Defaults to utcnow().
     """

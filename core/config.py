@@ -44,11 +44,11 @@ class Settings(BaseSettings):
     enable_dashboard: bool = True
     enable_discovery: bool = True
 
-    # Adaptive polling (seconds)
-    poll_business_hours: int = 300
-    poll_off_hours: int = 1200
-    poll_hot: int = 120
-    poll_inactive: int = 3600
+    # Adaptive polling (seconds) — keep as aggressive as polite API use allows
+    poll_business_hours: int = 60
+    poll_off_hours: int = 120
+    poll_hot: int = 30
+    poll_inactive: int = 300
 
     # Concurrency
     max_concurrent_polls: int = 50

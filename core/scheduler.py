@@ -104,8 +104,8 @@ class Scheduler:
                 await self.run_cycle()
             except Exception as exc:  # noqa: BLE001
                 log.error("Scheduler cycle failed: %s", exc)
-            # Small sleep between cycle planning passes
-            await asyncio.sleep(5)
+            # Tight tick so shortened adaptive intervals take effect quickly
+            await asyncio.sleep(2)
 
     async def run_cycle(self) -> None:
         """Poll all companies that are due."""

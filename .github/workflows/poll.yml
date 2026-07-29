@@ -14,8 +14,9 @@ name: Poll internships
 
 on:
   schedule:
-    # Every 15 minutes (shortest reliable cadence for most repos)
-    - cron: "*/15 * * * *"
+    # Every 5 minutes (shortest practical GitHub Actions cadence;
+    # */1 is allowed but often delayed/throttled and burns minutes fast)
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 concurrency:
