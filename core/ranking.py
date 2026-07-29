@@ -112,6 +112,53 @@ _REMOTE_US_CANADA = [
 ]
 
 
+def is_undergrad_eligible(title: str, description: str | None = None) -> bool:
+    """
+    Keep undergrad-eligible roles.
+
+    Reject PhD-only (or doctoral-only) postings. Keep roles that also hire
+    undergrads even if masters/PhD are listed (e.g. BS/MS/PhD).
+    """
+    blob = f"{title}\n{description or ''}"
+
+    undergrad = re.search(
+        r"\b("
+        r"undergrad(?:uate)?s?|"
+        r"bachelor'?s?|"
+        r"bachelors|"
+        r"bs|"
+        r"b\.s\.?|"
+        r"ba|"
+        r"b\.a\.?|"
+        r"bsc|"
+        r"undergraduate\s+student"
+        r")\b",
+        blob,
+        re.IGNORECASE,
+    )
+    phd = re.search(
+        r"\b("
+        r"ph\.?\s*d\.?|"
+        r"phd|"
+        r"doctoral|"
+        r"doctorate|"
+        r"post[\s-]*doc(?:toral)?"
+        r")\b",
+        blob,
+        re.IGNORECASE,
+    )
+
+    if not phd:
+        return True
+    # PhD mentioned — only keep when undergrad/bachelor track is also open
+    return bool(undergrad)
+
+
+def is_cs_track_internship(title: str) -> bool:
+    """True for SWE/SDE/ML/AI/embedded/firmware-style intern titles."""
+    return any(rx.search(title or "") for rx in _INCLUDE)
+
+
 def is_internship_candidate(title: str, description: str | None = None) -> bool:
     title = title or ""
     if not re.search(r"\bintern(?:s|ship)?\b", title, re.IGNORECASE):
@@ -120,16 +167,11 @@ def is_internship_candidate(title: str, description: str | None = None) -> bool:
         return False
     if any(rx.search(title) for rx in _EXCLUDE):
         return False
-    if any(rx.search(title) for rx in _INCLUDE):
-        return True
-    if re.search(
-        r"\b(software|swe|backend|frontend|full[\s-]*stack|platform|infrastructure|"
-        r"systems|security|ml|machine\s*learning|data\s*eng|research\s*eng|engineer)\b",
-        title,
-        re.IGNORECASE,
-    ):
-        return True
-    return False
+    if not is_cs_track_internship(title):
+        return False
+    if not is_undergrad_eligible(title, description):
+        return False
+    return True
 
 
 def location_blob_from_url(url: str | None) -> str:
@@ -204,10 +246,7 @@ def score_internship(internship: Internship) -> float:
             best = max(best, weight)
 
     if best <= 0:
-        if re.search(r"engineer", internship.title, re.IGNORECASE):
-            best = 60.0
-        else:
-            return 0.0
+        return 0.0
 
     if internship.term != InternshipTerm.UNKNOWN:
         best = min(100.0, best + 5.0)

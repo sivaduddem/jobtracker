@@ -5,6 +5,7 @@ from core.ranking import (
     classify_term,
     enrich_internship,
     is_internship_candidate,
+    is_undergrad_eligible,
     is_us_or_canada_location,
     score_internship,
 )
@@ -12,9 +13,30 @@ from core.ranking import (
 
 def test_include_swe_intern():
     assert is_internship_candidate("Software Engineer Intern")
+    assert is_internship_candidate("Software Development Engineer Intern")
     assert is_internship_candidate("SWE Intern - Summer 2027")
+    assert is_internship_candidate("SDE Internship - Fall 2026")
     assert is_internship_candidate("Platform Engineering Intern")
     assert is_internship_candidate("Backend Intern")
+    assert is_internship_candidate("Machine Learning Intern")
+    assert is_internship_candidate("ML Engineer Intern")
+    assert is_internship_candidate("AI Software Engineer Intern")
+    assert is_internship_candidate("Embedded Software Intern")
+    assert is_internship_candidate("Firmware Engineer Intern")
+    assert is_internship_candidate("Site Reliability Engineer Intern")
+
+
+def test_exclude_non_cs_engineering():
+    assert not is_internship_candidate("Mechanical Engineering Intern")
+    assert not is_internship_candidate(
+        "Mechanical and Thermal Analysis of Advanced Packaged Devices Intern"
+    )
+    assert not is_internship_candidate("Civil Engineering Intern")
+    assert not is_internship_candidate("Electrical Engineer Intern")
+    assert not is_internship_candidate("Field Engineer Intern Graduate")
+    assert not is_internship_candidate("Hardware Engineer Intern")
+    assert not is_internship_candidate("Chemical Engineering Intern")
+    assert not is_internship_candidate("Industrial Engineering Intern")
 
 
 def test_exclude_senior_and_non_eng():
@@ -27,6 +49,23 @@ def test_exclude_senior_and_non_eng():
     assert not is_internship_candidate("Software Engineer, Internal Systems")
     assert not is_internship_candidate("Software Engineer, International")
     assert not is_internship_candidate("Internal Product Engineer")
+
+
+def test_undergrad_vs_phd_only():
+    assert is_undergrad_eligible("Software Engineer Intern")
+    assert is_undergrad_eligible(
+        "Software Engineer Intern",
+        "Open to BS, MS, and PhD students",
+    )
+    assert is_undergrad_eligible("Software Engineering Intern, BS/MS/PhD")
+    assert not is_undergrad_eligible("Research Scientist Intern (PhD)")
+    assert not is_undergrad_eligible(
+        "Software Engineer Intern",
+        "PhD candidates only. Must be pursuing a doctoral degree.",
+    )
+    assert is_internship_candidate("Software Engineering Intern, BS/MS/PhD")
+    assert not is_internship_candidate("Machine Learning Engineer Intern - PhD")
+    assert not is_internship_candidate("Research Scientist Intern (PhD)")
 
 
 def test_us_canada_location_filter():
@@ -134,6 +173,8 @@ def test_ranking_scores():
     assert score_internship(mk("Backend Intern")) >= 95
     assert score_internship(mk("Full Stack Intern")) >= 80
     assert score_internship(mk("Frontend Intern")) == 40
+    assert score_internship(mk("Firmware Engineer Intern")) >= 95
+    assert score_internship(mk("Mechanical Engineering Intern")) == 0
 
 
 def test_enrich_drops_non_matches():
@@ -145,6 +186,26 @@ def test_enrich_drops_non_matches():
         provider=ATSProvider.ASHBY,
     )
     assert enrich_internship(bad) is None
+
+    mech = Internship(
+        company="X",
+        title="Mechanical Engineering Intern",
+        location="Austin, TX",
+        url="https://example.com/m",
+        job_id="m1",
+        provider=ATSProvider.GREENHOUSE,
+    )
+    assert enrich_internship(mech) is None
+
+    phd_only = Internship(
+        company="X",
+        title="ML Research Intern - PhD",
+        location="Menlo Park, CA",
+        url="https://example.com/phd",
+        job_id="p1",
+        provider=ATSProvider.GREENHOUSE,
+    )
+    assert enrich_internship(phd_only) is None
 
     good = Internship(
         company="X",
