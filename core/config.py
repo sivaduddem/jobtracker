@@ -97,6 +97,15 @@ class Settings(BaseSettings):
     def telegram_enabled(self) -> bool:
         return bool(self.telegram_bot_token and self.telegram_chat_id)
 
+    @property
+    def email_enabled(self) -> bool:
+        return bool(
+            self.email_smtp_host
+            and self.email_username
+            and self.email_password
+            and self.email_to
+        )
+
 
 # ---------------------------------------------------------------------------
 # Title / description filter configuration

@@ -182,7 +182,12 @@ Copy from `.env.example`. Main knobs:
 | `POLL_HOT` | `30` | Predicted opening / high priority |
 | `POLL_INACTIVE` | `300` | Backoff for quiet or erroring boards |
 | `MAX_CONCURRENT_POLLS` | `50` | In-flight HTTP polls |
-| `MIN_NOTIFY_SCORE` | `40` | Minimum score to send Telegram |
+| `MIN_NOTIFY_SCORE` | `40` | Minimum score to send alerts |
+| `EMAIL_SMTP_HOST` | — | e.g. `smtp.gmail.com` |
+| `EMAIL_SMTP_PORT` | `587` | SMTP port (STARTTLS) |
+| `EMAIL_USERNAME` | — | SMTP login (your Gmail) |
+| `EMAIL_PASSWORD` | — | Gmail App Password |
+| `EMAIL_TO` | — | Recipient (`sivaduddempudi@gmail.com`) |
 | `TARGET_TERMS` | Summer 2027, … | Terms used for classification |
 | `LOCATION_FILTER` | `us_canada` | `us_canada` or `any` |
 | `ENABLE_DISCOVERY` | `true` | Auto-discover companies on startup |

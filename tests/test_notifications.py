@@ -33,13 +33,12 @@ def test_format_text_contains_fields():
 
 
 @pytest.mark.asyncio
-async def test_telegram_disabled_without_creds():
-    session = MagicMock()
+async def test_email_disabled_without_creds():
+    from notifications.email import EmailNotifier
+
     settings = MagicMock()
-    settings.telegram_enabled = False
-    settings.telegram_bot_token = ""
-    settings.telegram_chat_id = ""
-    n = TelegramNotifier(session, settings)  # type: ignore[arg-type]
+    settings.email_enabled = False
+    n = EmailNotifier(settings)  # type: ignore[arg-type]
     assert not n.enabled()
     ok = await n.send(
         NotificationPayload(
@@ -53,6 +52,7 @@ async def test_telegram_disabled_without_creds():
         )
     )
     assert ok is False
+
 
 
 @pytest.mark.asyncio

@@ -3,7 +3,9 @@
 # Setup:
 #   1. Repo → Settings → Secrets and variables → Actions
 #   2. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID
-#   3. Enable Actions if prompted
+#   3. For email: EMAIL_SMTP_HOST, EMAIL_USERNAME, EMAIL_PASSWORD, EMAIL_TO
+#      (Gmail: smtp.gmail.com + App Password; EMAIL_TO=sivaduddempudi@gmail.com)
+#   4. Enable Actions if prompted
 #
 # Notes:
 #   - GitHub may delay cron jobs (often 5–20+ min late on free plans).
@@ -74,10 +76,15 @@ jobs:
           LOCATION_FILTER: us_canada
           LOG_LEVEL: INFO
           MAX_CONCURRENT_POLLS: "25"
-          # Skip Telegram on first seed so existing openings do not flood the chat
+          # Skip alerts on first seed so existing openings do not flood channels
           TELEGRAM_BOT_TOKEN: ${{ steps.db.outputs.exists == 'true' && secrets.TELEGRAM_BOT_TOKEN || '' }}
           TELEGRAM_CHAT_ID: ${{ steps.db.outputs.exists == 'true' && secrets.TELEGRAM_CHAT_ID || '' }}
           DISCORD_WEBHOOK_URL: ${{ steps.db.outputs.exists == 'true' && secrets.DISCORD_WEBHOOK_URL || '' }}
+          EMAIL_SMTP_HOST: ${{ steps.db.outputs.exists == 'true' && secrets.EMAIL_SMTP_HOST || '' }}
+          EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT || '587' }}
+          EMAIL_USERNAME: ${{ steps.db.outputs.exists == 'true' && secrets.EMAIL_USERNAME || '' }}
+          EMAIL_PASSWORD: ${{ steps.db.outputs.exists == 'true' && secrets.EMAIL_PASSWORD || '' }}
+          EMAIL_TO: ${{ steps.db.outputs.exists == 'true' && secrets.EMAIL_TO || '' }}
         run: python main.py --once
 
       - name: Save internship database
