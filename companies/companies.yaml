@@ -19,7 +19,6 @@ companies:
         - SWE Intern
       search_locations:
         - United States
-        - Canada
 
   amazon:
     name: Amazon
@@ -33,7 +32,6 @@ companies:
         - SDE Intern
       search_locations:
         - United States
-        - Canada
 
   apple:
     name: Apple
@@ -47,7 +45,6 @@ companies:
         - intern
       search_locations:
         - united-states-USA
-        - canada-CAN
 
   meta:
     name: Meta

@@ -50,7 +50,6 @@ class AppleProvider(BaseProvider):
         # Apple location facet values from careers UI
         locations = company.metadata.get("search_locations") or [
             "united-states-USA",
-            "canada-CAN",
         ]
 
         seen: dict[str, dict[str, Any]] = {}
@@ -114,8 +113,6 @@ class AppleProvider(BaseProvider):
                     loc_label = (
                         "United States"
                         if "united-states" in loc
-                        else "Canada"
-                        if "canada" in loc
                         else loc
                     )
                     title = _title_from_slug(slug) if slug else f"Apple Intern {job_id}"

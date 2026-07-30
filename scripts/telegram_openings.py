@@ -65,7 +65,7 @@ async def send_digest() -> int:
         await storage.close()
 
     if not jobs:
-        body = "📬 Currently open: none matched (US/Canada SWE intern filters)."
+        body = "📬 Currently open: none matched (US SWE intern filters)."
     else:
         lines = [f"📬 Currently open — {len(jobs)} SWE internship(s)\n"]
         for j in jobs:

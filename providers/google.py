@@ -1,7 +1,7 @@
 """Google Careers adapter (custom ATS — not Greenhouse/Lever/Ashby).
 
 Google's public careers site embeds job result paths in HTML. We poll the
-US + Canada search pages for Software Engineering Intern roles and normalize
+United States search pages for Software Engineering Intern roles and normalize
 matches. No paid API required.
 """
 
@@ -54,7 +54,6 @@ class GoogleProvider(BaseProvider):
         ]
         locations = company.metadata.get("search_locations") or [
             "United States",
-            "Canada",
         ]
 
         jobs: dict[str, dict[str, Any]] = {}
@@ -92,7 +91,7 @@ class GoogleProvider(BaseProvider):
                     ):
                         continue
                     if job_id in jobs:
-                        # Merge location labels across US/Canada searches
+                        # Merge location labels across search queries
                         prev = jobs[job_id].get("location") or ""
                         if loc not in prev:
                             jobs[job_id]["location"] = (

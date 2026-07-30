@@ -29,7 +29,6 @@ class AmazonProvider(BaseProvider):
         ]
         locations = company.metadata.get("search_locations") or [
             "United States",
-            "Canada",
         ]
         page_size = int(company.metadata.get("page_size") or 100)
         max_pages = int(company.metadata.get("max_pages") or 5)
@@ -80,7 +79,7 @@ class AmazonProvider(BaseProvider):
                         if "intern" not in title.lower():
                             continue
                         country = str(job.get("country_code") or "").upper()
-                        if country and country not in {"US", "USA", "CA", "CAN"}:
+                        if country and country not in {"US", "USA"}:
                             continue
                         seen[job_id] = job
                     hits = int(data.get("hits") or 0)

@@ -40,7 +40,7 @@ _HARD_TITLE_EXCLUDE = [
     ]
 ]
 
-_US_CANADA_POSITIVE = [
+_US_POSITIVE = [
     re.compile(p, re.IGNORECASE)
     for p in [
         r"\bunited\s+states\b",
@@ -48,8 +48,6 @@ _US_CANADA_POSITIVE = [
         r"\bu\.s\.a\.?\b",
         r"\bu\.s\.\b",
         r",\s*us\b",
-        r"\bcanada\b",
-        r"\bcanadian\b",
         r"\b(alabama|alaska|arizona|arkansas|california|colorado|connecticut|"
         r"delaware|florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|"
         r"kentucky|louisiana|maine|maryland|massachusetts|michigan|minnesota|"
@@ -60,11 +58,6 @@ _US_CANADA_POSITIVE = [
         r"west\s+virginia|wisconsin|wyoming|district\s+of\s+columbia)\b",
         r",\s*(A[LKZR]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEHINOST]|"
         r"N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])\b",
-        r"\b(ontario|quebec|british\s+columbia|alberta|manitoba|saskatchewan|"
-        r"nova\s+scotia|new\s+brunswick|newfoundland|prince\s+edward|"
-        r"toronto|vancouver|montreal|ottawa|calgary|waterloo|kitchener|"
-        r"victoria|edmonton|winnipeg|halifax)\b",
-        r",\s*(ON|BC|AB|MB|SK|NS|NB|NL|PE|QC|YT|NT|NU)\b",
         r"\b(mountain\s+view|sunnyvale|cupertino|palo\s+alto|menlo\s+park|"
         r"san\s+francisco|san\s+jose|seattle|bellevue|redmond|kirkland|"
         r"new\s+york\s*city|\bnyc\b|austin|boston|cambridge|chicago|"
@@ -97,17 +90,23 @@ _FOREIGN_ONLY = [
         r"ukraine|kyiv|russia|moscow|pakistan|karachi|"
         r"bangladesh|dhaka|malaysia|kuala\s+lumpur|"
         r"emea|apac|latam|europe|asia|africa)\b",
+        r"\b(canada|canadian|ontario|quebec|british\s+columbia|alberta|"
+        r"manitoba|saskatchewan|nova\s+scotia|new\s+brunswick|"
+        r"newfoundland|prince\s+edward|toronto|vancouver|montreal|"
+        r"ottawa|calgary|waterloo|kitchener|edmonton|"
+        r"winnipeg|halifax)\b",
+        r",\s*(ON|BC|AB|MB|SK|NS|NB|NL|PE|QC|YT|NT|NU)\b",
     ]
 ]
 
-# Remote is only OK when explicitly tied to US/Canada.
-_REMOTE_US_CANADA = [
+# Remote is only OK when explicitly tied to the United States.
+_REMOTE_US = [
     re.compile(p, re.IGNORECASE)
     for p in [
-        r"\bremote\b.*\b(united\s+states|usa|u\.s\.a?\.?|canada|canadian)\b",
-        r"\b(united\s+states|usa|u\.s\.a?\.?|canada|canadian)\b.*\bremote\b",
-        r"\b(us|usa|canada)[\s\-_/]*remote\b",
-        r"\bremote[\s\-_/]*(us|usa|canada)\b",
+        r"\bremote\b.*\b(united\s+states|usa|u\.s\.a?\.?)\b",
+        r"\b(united\s+states|usa|u\.s\.a?\.?)\b.*\bremote\b",
+        r"\b(us|usa)[\s\-_/]*remote\b",
+        r"\bremote[\s\-_/]*(us|usa)\b",
     ]
 ]
 
@@ -185,20 +184,19 @@ def location_blob_from_url(url: str | None) -> str:
     return url
 
 
-def is_us_or_canada_location(
+def is_united_states_location(
     location: str | None,
     *,
     remote: bool | None = None,
     url: str | None = None,
 ) -> bool:
     """
-    Strict US/Canada allowlist.
+    Strict United States allowlist.
 
     A job passes only when location (or URL path fallback) positively matches
-    the United States or Canada. Missing/unknown locations are rejected.
-    Remote roles pass only when explicitly US/Canada remote.
-    Multi-location strings that include at least one US/Canada site are kept,
-    unless they are purely foreign.
+    the United States. Canada and other countries are rejected.
+    Missing/unknown locations are rejected. Remote roles pass only when
+    explicitly US remote.
     """
     text = (location or "").strip()
     url_blob = location_blob_from_url(url)
@@ -207,21 +205,28 @@ def is_us_or_canada_location(
     if not combined:
         return False
 
-    # Explicit foreign with no US/Canada signal → reject
-    has_us_ca = any(rx.search(combined) for rx in _US_CANADA_POSITIVE)
+    has_us = any(rx.search(combined) for rx in _US_POSITIVE)
     has_foreign = any(rx.search(combined) for rx in _FOREIGN_ONLY)
 
-    if has_us_ca:
+    if has_us and not has_foreign:
+        return True
+    # Multi-location US + foreign: keep only if a clear US signal exists and
+    # Canada/foreign alone isn't the only match — prefer US presence.
+    if has_us:
+        # e.g. "Seattle, WA; Toronto, ON" — still has US site, keep
         return True
 
     if remote or re.search(r"\bremote\b", combined, re.IGNORECASE):
-        return any(rx.search(combined) for rx in _REMOTE_US_CANADA)
+        return any(rx.search(combined) for rx in _REMOTE_US)
 
     if has_foreign:
         return False
 
-    # Unknown city/country with no US/Canada markers → reject (strict)
     return False
+
+
+# Back-compat alias (filter is US-only now)
+is_us_or_canada_location = is_united_states_location
 
 
 def classify_term(
@@ -264,8 +269,16 @@ def enrich_internship(internship: Internship) -> Internship | None:
         return None
 
     settings = get_settings()
-    if settings.location_filter.lower() in {"us_canada", "us-canada", "na"}:
-        if not is_us_or_canada_location(
+    if settings.location_filter.lower() in {
+        "us",
+        "usa",
+        "us_only",
+        "united_states",
+        "us_canada",  # legacy name; behavior is US-only
+        "us-canada",
+        "na",
+    }:
+        if not is_united_states_location(
             internship.location,
             remote=internship.remote,
             url=internship.url,

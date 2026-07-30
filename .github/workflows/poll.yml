@@ -73,7 +73,7 @@ jobs:
           COMPANIES_PATH: companies/companies.yaml
           ENABLE_DISCOVERY: "false"
           ENABLE_DASHBOARD: "false"
-          LOCATION_FILTER: us_canada
+          LOCATION_FILTER: us
           LOG_LEVEL: INFO
           MAX_CONCURRENT_POLLS: "25"
           # Skip alerts on first seed so existing openings do not flood channels

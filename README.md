@@ -14,7 +14,7 @@ Monitors ATS platforms (not individual company scrapers) and alerts you within m
 
 **Latency goals:** ~30–60s locally for hot/business-hours boards; ~5 min on GitHub Actions cron.
 
-By default, only **US & Canada** locations are kept (`LOCATION_FILTER=us_canada`). Set `LOCATION_FILTER=any` to disable.
+By default, only **United States** locations are kept (`LOCATION_FILTER=us`). Set `LOCATION_FILTER=any` to disable.
 
 ## Quick start
 
@@ -189,7 +189,7 @@ Copy from `.env.example`. Main knobs:
 | `EMAIL_PASSWORD` | — | Gmail App Password |
 | `EMAIL_TO` | — | Recipient (`sivaduddempudi@gmail.com`) |
 | `TARGET_TERMS` | Summer 2027, … | Terms used for classification |
-| `LOCATION_FILTER` | `us_canada` | `us_canada` or `any` |
+| `LOCATION_FILTER` | `us` | `us` or `any` |
 | `ENABLE_DISCOVERY` | `true` | Auto-discover companies on startup |
 | `DASHBOARD_PORT` | `8000` | Local UI port |
 

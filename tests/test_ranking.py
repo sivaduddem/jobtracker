@@ -68,12 +68,16 @@ def test_undergrad_vs_phd_only():
     assert not is_internship_candidate("Research Scientist Intern (PhD)")
 
 
-def test_us_canada_location_filter():
+def test_us_location_filter():
     assert is_us_or_canada_location("Mountain View, CA, USA; Atlanta, GA, USA; +29 more")
-    assert is_us_or_canada_location("Toronto, ON, Canada")
     assert is_us_or_canada_location("Seattle, WA")
     assert is_us_or_canada_location("Remote - United States", remote=True)
     assert is_us_or_canada_location("USA Remote")
+    assert is_us_or_canada_location("Seattle, WA; Toronto, ON")  # multi-site incl. US
+    # Canada rejected
+    assert not is_us_or_canada_location("Toronto, ON, Canada")
+    assert not is_us_or_canada_location("Vancouver, BC")
+    assert not is_us_or_canada_location("Remote - Canada", remote=True)
     # Strict: missing / unknown / foreign rejected
     assert not is_us_or_canada_location(None)
     assert not is_us_or_canada_location("")
@@ -102,7 +106,7 @@ def test_enrich_drops_foreign_locations(monkeypatch):
     from core.config import get_settings
 
     get_settings.cache_clear()
-    monkeypatch.setenv("LOCATION_FILTER", "us_canada")
+    monkeypatch.setenv("LOCATION_FILTER", "us")
     get_settings.cache_clear()
 
     foreign = Internship(

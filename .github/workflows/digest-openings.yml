@@ -45,7 +45,7 @@ jobs:
           DATABASE_PATH: data/internships.db
           COMPANIES_PATH: companies/companies.yaml
           ENABLE_DISCOVERY: "false"
-          LOCATION_FILTER: us_canada
+          LOCATION_FILTER: us
           LOG_LEVEL: INFO
           MAX_CONCURRENT_POLLS: "25"
           TELEGRAM_BOT_TOKEN: ""
